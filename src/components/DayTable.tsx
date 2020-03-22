@@ -8,6 +8,8 @@ import {TimeEntryRow} from "./TimeEntryRow";
 import moment from "moment";
 import {TimeEntryEdit} from "./TimeEntryEdit";
 
+const currencies = require('country-currency');
+
 interface IDayTableState {
 	date: Date;
 	entries: TimeEntry[];
@@ -38,10 +40,32 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 		});
 	}
 
+	get sumTime() {
+		const dayState = this.context.getDay(this.state.date);
+		return dayState.sumTime.asHours().toFixed(2);
+	}
+
+	get sumMoney() {
+		const dayState = this.context.getDay(this.state.date);
+		const byCountry = currencies.byCountry();
+		let countryCode = navigator.language.substr(3);
+		const currency = byCountry.get(countryCode);
+		// console.log(countryCode, currency);
+		const rate = this.context.rate;
+
+		const hours = dayState.sumTime.asHours();
+		const amount = hours * rate;
+		return new Intl.NumberFormat(undefined, {
+			style: 'currency',
+			currency,
+			currencyDisplay: 'symbol',
+		}).format(amount);
+	}
+
 	render() {
 		return (
 			<Table>
-				<thead>
+				<thead className="thead-light">
 				<tr>
 					<th>Start Time</th>
 					<th>End Time</th>
@@ -59,17 +83,22 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 													 timeEntry={te} key={index}
 													 onChange={e => this.onChange(e, index)}/>
 				)}
-				<tfoot>
+				<tfoot className="tfoot-light" style={{
+					color: '#495057',
+					backgroundColor: '#e9ecef',
+					borderColor: '#dee2e6',
+				}}>
 				<tr>
-					<td>
+					<td colSpan={2}>
 						<a href="/addRow" onClick={this.addRow.bind(this)}>
 							<FaPlus/>
 						</a>
 					</td>
-					<td>
-						<a href="/start">
-							<FaPlay/>
-						</a>
+					<td className="text-right">
+						{this.sumTime} h
+					</td>
+					<td className="text-right">
+						{this.sumMoney}
 					</td>
 				</tr>
 				</tfoot>

@@ -35,4 +35,10 @@ export class DaysState extends AppStateBase {
 		console.log('updateOne', timeEntry);
 		this.notify();
 	}
+
+	get sumTime(): moment.Duration {
+		const sum = this.entries.reduce((acc: moment.Duration, te: TimeEntry) => te.duration.add(acc), moment.duration(0));
+		return sum;
+	}
+
 }

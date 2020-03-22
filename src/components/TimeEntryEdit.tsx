@@ -71,7 +71,9 @@ export class TimeEntryEdit extends TimeEntryRow {
 		</tr>
 		<tr>
 			<td colSpan={6}>
-						<textarea name="comment" className="form-control" form="form1"
+						<textarea name="comment"
+											placeholder="comment"
+											className="form-control" form="form1"
 											onChange={this.props.onChange}
 											value={this.props.timeEntry.comment}/>
 			</td>
