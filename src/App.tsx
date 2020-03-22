@@ -3,10 +3,21 @@ import './App.css';
 import {DayTable} from "./components/DayTable";
 import {Link, Route, Router, Switch} from "react-router-dom";
 import {createBrowserHistory} from 'history';
+import {GlobalContext} from "./state/GlobalContext";
+import {AppState} from "./state/AppState";
 
 export const history = createBrowserHistory();
 
 export class App extends React.Component<any, any> {
+
+	static contextType = GlobalContext;
+	// @ts-ignore
+	context: AppState;
+
+	componentDidMount(): void {
+		this.context.subscribe(this.forceUpdate.bind(this));
+	}
+
 	render() {
 		return (
 			<Router history={history}>

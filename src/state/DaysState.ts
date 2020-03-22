@@ -24,4 +24,15 @@ export class DaysState extends AppStateBase {
 		super.update(this.key, entries);
 	}
 
+	updateOne(timeEntry: TimeEntry) {
+		const index = this.entries.findIndex((el => el === timeEntry));
+		if (index === -1) {
+			console.error('index in updateOne not found');
+			return;
+		}
+		this.entries[index] = timeEntry;
+		this.updateEntries(this.entries);
+		console.log('updateOne', timeEntry);
+		this.notify();
+	}
 }

@@ -58,7 +58,7 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
 			<td>
 				{this.startValue}
 			</td>
-			<td className="d-flex">
+			<td>
 				{this.endValue}
 			</td>
 			<td className="text-right">
