@@ -14,7 +14,15 @@ export class TimeEntry extends POJO {
 		Object.assign(this, props);
 	}
 
-	getStartMoment(date: Date) {
+	get duration() {
+		const start = this.getStartMoment();
+		const end = this.getEndMoment();
+		const dur = moment.duration(end.diff(start));
+		return dur;
+	}
+
+	getStartMoment() {
+		const date = new Date();
 		const [hr, min] = this.start.split(':');
 		const iHr = parseInt(hr, 10);
 		const iMin = parseInt(min, 10);
@@ -22,7 +30,9 @@ export class TimeEntry extends POJO {
 		return from;
 	}
 
-	getEndMoment(date: Date) {
+	// returns now() if no end time specified
+	getEndMoment() {
+		const date = new Date();
 		if (!this.end) {
 			const now = new Date();
 			return moment(date).hours(now.getHours()).minutes(now.getMinutes());

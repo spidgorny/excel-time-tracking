@@ -6,6 +6,7 @@ import {GlobalContext} from "../state/GlobalContext";
 import {TimeEntry} from "../model/TimeEntry";
 import {TimeEntryRow} from "./TimeEntryRow";
 import moment from "moment";
+import {TimeEntryEdit} from "./TimeEntryEdit";
 
 interface IDayTableState {
 	date: Date;
@@ -26,16 +27,18 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 	};
 
 	componentDidMount(): void {
+		const entries = this.context.getDay(this.state.date).entries;
+		// console.log('componentDidMount', entries);
 		this.setState({
-			entries: this.context.getDay(this.state.date).entries,
+			entries,
+		}, () => {
+			if (this.state.entries.length === 0) {
+				this.addRow(null);
+			}
 		});
-		if (this.state.entries.length === 0) {
-			this.addRow(null);
-		}
 	}
 
 	render() {
-		console.log(this.state.entries.length);
 		return (
 			<Table>
 				<thead>
@@ -46,12 +49,16 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 					<th className="text-right">Earnings</th>
 				</tr>
 				</thead>
-				<tbody>
 				{this.state.entries.map((te: TimeEntry, index: number) =>
-					<TimeEntryRow date={this.state.date}
-												timeEntry={te} key={index}
-												onChange={e => this.onChange(e, index)}/>)}
-				</tbody>
+					te.end ?
+						<TimeEntryRow date={this.state.date}
+													timeEntry={te} key={index}
+													onChange={e => this.onChange(e, index)}/>
+						:
+						<TimeEntryEdit date={this.state.date}
+													 timeEntry={te} key={index}
+													 onChange={e => this.onChange(e, index)}/>
+				)}
 				<tfoot>
 				<tr>
 					<td>
@@ -61,10 +68,7 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 					</td>
 					<td>
 						<a href="/start">
-								<FaPlay/>
-							</a>
-						<a href="/stop" className="pl-3">
-							<FaStop/>
+							<FaPlay/>
 						</a>
 					</td>
 				</tr>
@@ -81,18 +85,19 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 			return;
 		}
 		// @ts-ignore
-		let eElements = input.closest('tr').querySelectorAll('input, textarea');
-		let aElements = Array.from(eElements) as HTMLInputElement[];
+		const eElements = input.closest('.timeEntryRow').querySelectorAll('input, textarea');
+		const aElements = Array.from(eElements) as HTMLInputElement[];
 		const valueSet = aElements.map((el: HTMLInputElement | HTMLTextAreaElement) => {
 			// console.log(el);
 			if (el.name) {
 				return {[el.name]: el.value};
 			}
+			return {};
 		});
 		const values = valueSet.reduce((acc, pair) => {
 			return Object.assign(acc, pair);
 		}, {});
-		console.log(index, values);
+		// console.log(index, values);
 		const entries: TimeEntry[] = this.state.entries;
 		entries[index] = new TimeEntry(values);
 		this.setState({
@@ -108,8 +113,8 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 		}
 		const entries: TimeEntry[] = this.state.entries;
 
-		if (entries.length) {
-			const lastEntry = entries[entries.length];
+		if (entries.length > 0) {
+			const lastEntry = entries[entries.length - 1];
 			lastEntry.finish();
 		}
 		entries.push(new TimeEntry({
@@ -117,7 +122,9 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 		}));	// add current entry to the list
 		this.setState({
 			entries,
-		})
+		}, () => {
+			this.context.getDay(this.state.date).updateEntries(entries);
+		});
 	}
 
 }

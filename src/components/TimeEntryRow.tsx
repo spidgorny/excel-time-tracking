@@ -1,6 +1,10 @@
 import React from "react";
 import {TimeEntry} from "../model/TimeEntry";
 import moment from "moment";
+import {GlobalContext} from "../state/GlobalContext";
+import {AppState} from "../state/AppState";
+
+const currencies = require('country-currency');
 
 interface ITimeEntryRowProps {
 	date: Date;
@@ -9,6 +13,10 @@ interface ITimeEntryRowProps {
 }
 
 export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
+
+	static contextType = GlobalContext;
+	// @ts-ignore
+	context: AppState;
 
 	get startValue() {
 		if (this.props.timeEntry.start) {
@@ -24,53 +32,49 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
 		return '';
 	}
 
-	get dur() {
-		const dur = moment.duration(this.props.timeEntry.getStartMoment(this.props.date)
-			.diff(this.props.timeEntry.getEndMoment(this.props.date)));
-		return dur;
-	}
-
 	get duration() {
-		const dur = this.dur;
-		return dur.hours() + ':' + dur.minutes();
+		const dur = this.props.timeEntry.duration;
+		return dur.hours().toString().padStart(2, '0') + ':' + dur.minutes().toString().padStart(2, '0');
 	}
 
 	get earnings() {
-		return 123 + '$';
+		const byCountry = currencies.byCountry();
+		let countryCode = navigator.language.substr(3);
+		const currency = byCountry.get(countryCode);
+		// console.log(countryCode, currency);
+		const rate = this.context.rate;
+
+		const hours = this.props.timeEntry.duration.asHours();
+		const amount = hours * rate;
+		return new Intl.NumberFormat(undefined, {
+			style: 'currency',
+			currency,
+		}).format(amount);
 	}
 
 	render() {
-		return <>
-			<tr>
-				<td>
-					<input type="time" name="start" form="form1"
-								 value={this.startValue}
-								 onChange={this.props.onChange}
-								 className="form-control"/>
-				</td>
-				<td className="d-flex">
-					<input type="time" name="end" form="form1"
-								 value={this.endValue}
-								 onChange={this.props.onChange}
-								 className="form-control"/>
-				</td>
-				<td className="text-right">
-					<output>
-						{this.duration}
-					</output>
-				</td>
-				<td className="text-right">
-					<output>
-						{this.earnings}
-					</output>
-				</td>
-			</tr>
+		return <tbody>
+		<tr>
+			<td>
+				{this.startValue}
+			</td>
+			<td className="d-flex">
+				{this.endValue}
+			</td>
+			<td className="text-right">
+				{this.duration}
+			</td>
+			<td className="text-right">
+				{this.earnings}
+			</td>
+		</tr>
+		{this.props.timeEntry.comment ?
 			<tr>
 				<td colSpan={6}>
-							<textarea name="comment" className="form-control" form="form1"
-												onChange={this.props.onChange}/>
+					{this.props.timeEntry.comment}
 				</td>
 			</tr>
-		</>;
+			: null}
+		</tbody>;
 	}
 }

@@ -10,7 +10,9 @@ export class DaysState extends AppStateBase {
 	constructor(date: Date) {
 		super();
 		this.date = date;
-		this.entries = this.fetch(this.key);
+		this.entries = this.fetch(this.key, [])
+			.map((el: any) => new TimeEntry(el))
+			.filter((el: TimeEntry) => el.start);
 	}
 
 	get key() {
