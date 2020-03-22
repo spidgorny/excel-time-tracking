@@ -4,11 +4,6 @@ export class AppStateBase {
 
 	_callbacks: Function[] = [];
 
-	// TODO: https://npm.runkit.com/serialijse
-	constructor() {
-		(window as any)['state'] = this;
-	}
-
 	fetch(name: string, defaultValue: any = null) {
 		const val = this._storage.getItem(name);
 		if (!val) {

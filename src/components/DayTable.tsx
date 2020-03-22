@@ -1,16 +1,19 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import Form from "react-bootstrap/Form";
 import {FaStop, FaPlay, FaPlus} from "react-icons/fa";
-import moment from "moment";
 import {AppState} from "../state/AppState";
 import {GlobalContext} from "../state/GlobalContext";
 import {TimeEntry} from "../model/TimeEntry";
+import {TimeEntryRow} from "./TimeEntryRow";
+import moment from "moment";
 
-export class DayTable extends React.Component<{}, {
+interface IDayTableState {
 	date: Date;
 	entries: TimeEntry[];
-}> {
+	// oneMore?: TimeEntry;
+}
+
+export class DayTable extends React.Component<{}, IDayTableState> {
 
 	static contextType = GlobalContext;
 	// @ts-ignore
@@ -19,95 +22,58 @@ export class DayTable extends React.Component<{}, {
 	state = {
 		date: new Date(),
 		entries: [],
+		// oneMore: undefined,
 	};
 
-	get startValue() {
-		return moment().format('HH:mm');
-	}
-
-	get endValue() {
-		return '';
-	}
-
-	get duration() {
-		return '01:23';
-	}
-
-	get earnings() {
-		return 123 + '$';
+	componentDidMount(): void {
+		this.setState({
+			entries: this.context.getDay(this.state.date).entries,
+		});
+		if (this.state.entries.length === 0) {
+			this.addRow(null);
+		}
 	}
 
 	render() {
+		console.log(this.state.entries.length);
 		return (
-			<Form onSubmit={this.onSubmit.bind(this)}>
-				<Table>
-					<thead>
-					<tr>
-						<th>Start Time</th>
-						<th>End Time</th>
-						<th className="text-right">Duration</th>
-						<th className="text-right">Earnings</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>
-							<input type="time" name="start"
-										 value={this.startValue}
-										 onChange={e => this.onChange(e, 'start')}
-										 className="form-control"/>
-						</td>
-						<td className="d-flex">
-							<input type="time" name="end"
-										 value={this.endValue}
-										 onChange={e => this.onChange(e, 'end')}
-										 className="form-control"/>
-						</td>
-						<td className="text-right">
-							<output>
-								{this.duration}
-							</output>
-						</td>
-						<td className="text-right">
-							<output>
-								{this.earnings}
-							</output>
-						</td>
-					</tr>
-					<tr>
-						<td colSpan={6}>
-								<textarea name="comment" className="form-control"
-													onChange={e => this.onChange(e, 'comment')}></textarea>
-						</td>
-					</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td>
-							<a href="/addRow" onClick={this.addRow.bind(this)}>
-								<FaPlus/>
-							</a>
-						</td>
-						<td>
-							<a href="/start">
+			<Table>
+				<thead>
+				<tr>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th className="text-right">Duration</th>
+					<th className="text-right">Earnings</th>
+				</tr>
+				</thead>
+				<tbody>
+				{this.state.entries.map((te: TimeEntry, index: number) =>
+					<TimeEntryRow date={this.state.date}
+												timeEntry={te} key={index}
+												onChange={e => this.onChange(e, index)}/>)}
+				</tbody>
+				<tfoot>
+				<tr>
+					<td>
+						<a href="/addRow" onClick={this.addRow.bind(this)}>
+							<FaPlus/>
+						</a>
+					</td>
+					<td>
+						<a href="/start">
 								<FaPlay/>
 							</a>
-							<a href="/stop" className="pl-3">
-								<FaStop/>
-							</a>
-						</td>
-					</tr>
-					</tfoot>
-				</Table>
-			</Form>
+						<a href="/stop" className="pl-3">
+							<FaStop/>
+						</a>
+					</td>
+				</tr>
+				</tfoot>
+			</Table>
 		);
 	}
 
-	onChange(e: React.ChangeEvent, field: string) {
-		this.onSubmit(e);
-	}
-
-	onSubmit(e: React.FormEvent) {
+	onChange(e: React.ChangeEvent, index: number) {
 		e.preventDefault();
 		// console.log(e.target);
 		const input = e.target as HTMLInputElement;
@@ -115,7 +81,8 @@ export class DayTable extends React.Component<{}, {
 			return;
 		}
 		// @ts-ignore
-		let aElements: HTMLInputElement[] = Array.from(input.form.elements);
+		let eElements = input.closest('tr').querySelectorAll('input, textarea');
+		let aElements = Array.from(eElements) as HTMLInputElement[];
 		const valueSet = aElements.map((el: HTMLInputElement | HTMLTextAreaElement) => {
 			// console.log(el);
 			if (el.name) {
@@ -125,14 +92,32 @@ export class DayTable extends React.Component<{}, {
 		const values = valueSet.reduce((acc, pair) => {
 			return Object.assign(acc, pair);
 		}, {});
-		console.log(values);
+		console.log(index, values);
+		const entries: TimeEntry[] = this.state.entries;
+		entries[index] = new TimeEntry(values);
+		this.setState({
+			entries,
+		});
 		this.context.getDay(this.state.date)
 			.updateEntries(this.state.entries);
 	}
 
-	addRow(e: React.MouseEvent) {
-		e.preventDefault();
+	addRow(e: React.MouseEvent | null) {
+		if (e) {
+			e.preventDefault();
+		}
+		const entries: TimeEntry[] = this.state.entries;
 
+		if (entries.length) {
+			const lastEntry = entries[entries.length];
+			lastEntry.finish();
+		}
+		entries.push(new TimeEntry({
+			start: moment().format('HH:mm'),
+		}));	// add current entry to the list
+		this.setState({
+			entries,
+		})
 	}
 
 }
