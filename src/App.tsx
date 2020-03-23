@@ -8,6 +8,7 @@ import {AppState} from "./state/AppState";
 import {Header} from "./components/Header";
 import moment from "moment";
 import {DayTimeline} from "./components/DayTimeline";
+import {WeekTotal} from "./components/WeekTotal";
 
 export const history = createBrowserHistory();
 
@@ -31,6 +32,7 @@ export class App extends React.Component<any, any> {
 						<Switch>
 							<Route path="/" exact>
 								<DayTable date={this.context.date}/>
+								<WeekTotal date={this.context.date}/>
 							</Route>
 						</Switch>
 					</div>

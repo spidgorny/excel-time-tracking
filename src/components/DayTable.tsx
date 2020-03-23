@@ -7,6 +7,7 @@ import {TimeEntry} from "../model/TimeEntry";
 import {TimeEntryRow} from "./TimeEntryRow";
 import moment from "moment";
 import {TimeEntryEdit} from "./TimeEntryEdit";
+import {Earnings} from "./Earnings";
 
 const currencies = require('country-currency');
 
@@ -35,19 +36,8 @@ export class DayTable extends React.Component<{
 
 	get sumMoney() {
 		const dayState = this.context.getDay(this.props.date);
-		const byCountry = currencies.byCountry();
-		let countryCode = navigator.language.substr(3);
-		const currency = byCountry.get(countryCode);
-		// console.log(countryCode, currency);
-		const rate = this.context.rate;
-
 		const hours = dayState.sumTime.asHours();
-		const amount = hours * rate;
-		return new Intl.NumberFormat(undefined, {
-			style: 'currency',
-			currency,
-			currencyDisplay: 'symbol',
-		}).format(amount);
+		return (<Earnings hours={hours}/>);
 	}
 
 	componentDidMount(): void {
@@ -135,9 +125,10 @@ export class DayTable extends React.Component<{
 						</a>
 					</td>
 					<td colSpan={1}>
-						<a href="/addPlay" onClick={this.addPlay.bind(this)}>
-							<FaPlay/>
-						</a>
+						{moment(this.props.date).isSame(moment(), 'day')
+							? <a href="/addPlay" onClick={this.addPlay.bind(this)}>
+								<FaPlay/>
+							</a> : null}
 					</td>
 					<td className="text-right">
 						{this.sumTime} h

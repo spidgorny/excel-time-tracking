@@ -22,6 +22,7 @@ export class DaysState extends AppStateBase {
 
 	updateEntries(entries: TimeEntry[]) {
 		super.update(this.key, entries);
+		this.notify();
 	}
 
 	updateOne(timeEntry: TimeEntry) {

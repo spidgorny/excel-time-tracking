@@ -3,8 +3,7 @@ import {TimeEntry} from "../model/TimeEntry";
 import moment from "moment";
 import {GlobalContext} from "../state/GlobalContext";
 import {AppState} from "../state/AppState";
-
-const currencies = require('country-currency');
+import {Earnings} from "./Earnings";
 
 interface ITimeEntryRowProps {
 	date: Date;
@@ -39,18 +38,8 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
 	}
 
 	get earnings() {
-		const byCountry = currencies.byCountry();
-		let countryCode = navigator.language.substr(3);
-		const currency = byCountry.get(countryCode);
-		// console.log(countryCode, currency);
-		const rate = this.context.rate;
-
 		const hours = this.props.timeEntry.duration.asHours();
-		const amount = hours * rate;
-		return new Intl.NumberFormat(undefined, {
-			style: 'currency',
-			currency,
-		}).format(amount);
+		return (<Earnings hours={hours}/>);
 	}
 
 	render() {
