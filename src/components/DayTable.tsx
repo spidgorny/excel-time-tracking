@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import {FaStop, FaPlay, FaPlus} from "react-icons/fa";
+import {FaPlus} from "react-icons/fa";
 import {AppState} from "../state/AppState";
 import {GlobalContext} from "../state/GlobalContext";
 import {TimeEntry} from "../model/TimeEntry";

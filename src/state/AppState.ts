@@ -4,6 +4,7 @@ import moment from "moment";
 
 export class AppState extends AppStateBase {
 
+	date: Date = new Date();
 	rate: number;
 	dayStateCache: {
 		[key: string]: DaysState;
