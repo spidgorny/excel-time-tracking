@@ -43,7 +43,7 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
 	}
 
 	render() {
-		return <tbody>
+		return (<tbody>
 		<tr>
 			<td onClick={e => this.props.makeEditable(e as unknown as Event, true)}>
 				{this.startValue}
@@ -65,6 +65,6 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
 				</td>
 			</tr>
 			: null}
-		</tbody>;
+		</tbody>);
 	}
 }

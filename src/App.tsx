@@ -9,6 +9,7 @@ import {Header} from "./components/Header";
 import moment from "moment";
 import {DayTimeline} from "./components/DayTimeline";
 import {WeekTotal} from "./components/WeekTotal";
+import {MonthTotal} from "./components/MonthTotal";
 
 export const history = createBrowserHistory();
 
@@ -32,7 +33,10 @@ export class App extends React.Component<any, any> {
 						<Switch>
 							<Route path="/" exact>
 								<DayTable date={this.context.date}/>
-								<WeekTotal date={this.context.date}/>
+								<div className="d-flex justify-content-between">
+									<WeekTotal date={this.context.date}/>
+									<MonthTotal date={this.context.date}/>
+								</div>
 							</Route>
 						</Switch>
 					</div>
