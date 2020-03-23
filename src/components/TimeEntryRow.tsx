@@ -10,6 +10,7 @@ interface ITimeEntryRowProps {
 	date: Date;
 	timeEntry: TimeEntry;
 	onChange: (e: React.ChangeEvent) => void;
+	makeEditable: (e: Event, yesOrNo: boolean) => void;
 }
 
 export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
@@ -55,10 +56,10 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
 	render() {
 		return <tbody>
 		<tr>
-			<td>
+			<td onClick={e => this.props.makeEditable(e as unknown as Event, true)}>
 				{this.startValue}
 			</td>
-			<td>
+			<td onClick={e => this.props.makeEditable(e as unknown as Event, true)}>
 				{this.endValue}
 			</td>
 			<td className="text-right">

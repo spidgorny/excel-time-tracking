@@ -12,7 +12,7 @@ const currencies = require('country-currency');
 
 interface IDayTableState {
 	entries: TimeEntry[];
-	// oneMore?: TimeEntry;
+	editable: boolean[];
 }
 
 export class DayTable extends React.Component<{
@@ -25,7 +25,7 @@ export class DayTable extends React.Component<{
 
 	state = {
 		entries: [],
-		// oneMore: undefined,
+		editable: [],
 	};
 
 	get sumTime() {
@@ -52,6 +52,7 @@ export class DayTable extends React.Component<{
 
 	componentDidMount(): void {
 		this.fetch();
+		document.addEventListener('keydown', (e) => this.keydownHandler(e));
 	}
 
 	fetch() {
@@ -72,6 +73,18 @@ export class DayTable extends React.Component<{
 		}
 	}
 
+	keydownHandler(e: KeyboardEvent) {
+		// console.log(e.key, e.ctrlKey, e.metaKey);
+		if (e.key === 'Insert') {
+			// @ts-ignore
+			this.addRow(e as unknown as Event);
+		}
+	}
+
+	componentWillUnmount(): void {
+		document.removeEventListener('keydown', (e) => this.keydownHandler(e));
+	}
+
 	render() {
 		// console.log('DayTable.render', this.props.date);
 		return (
@@ -85,21 +98,25 @@ export class DayTable extends React.Component<{
 				</tr>
 				</thead>
 				{this.state.entries.map((te: TimeEntry, index: number) =>
-					te.end ?
+					(te.end && !this.state.editable[index]) ?
 						<TimeEntryRow date={this.props.date}
-													timeEntry={te} key={index}
-													onChange={e => this.onChange(e, index)}/>
+									  timeEntry={te} key={index}
+									  onChange={e => this.onChange(e, index)}
+									  makeEditable={(e, yesNo) => this.makeEditable(e, index, yesNo)}
+						/>
 						:
 						<TimeEntryEdit date={this.props.date}
-													 timeEntry={te} key={index}
-													 onChange={e => this.onChange(e, index)}/>
+									   timeEntry={te} key={index}
+									   onChange={e => this.onChange(e, index)}
+									   makeEditable={(e, yesNo) => this.makeEditable(e, index, yesNo)}
+						/>
 				)}
 				{!this.state.entries.length ?
 					<tbody>
 					<tr>
 						<td colSpan={4}>
 							<a href="/start" className="btn btn-primary"
-								 onClick={this.startWorking.bind(this)}>
+							   onClick={this.startWorking.bind(this)}>
 								<FaPlay/>
 							</a>
 						</td>
@@ -112,9 +129,14 @@ export class DayTable extends React.Component<{
 					borderColor: '#dee2e6',
 				}}>
 				<tr>
-					<td colSpan={2}>
+					<td colSpan={1}>
 						<a href="/addRow" onClick={this.addRow.bind(this)}>
 							<FaPlus/>
+						</a>
+					</td>
+					<td colSpan={1}>
+						<a href="/addPlay" onClick={this.addPlay.bind(this)}>
+							<FaPlay/>
 						</a>
 					</td>
 					<td className="text-right">
@@ -174,6 +196,34 @@ export class DayTable extends React.Component<{
 			lastEntry.finish();
 		}
 		entries.push(new TimeEntry({
+			start: moment().subtract(1, 'hour').format('HH:mm'),
+			end: moment().format('HH:mm'),
+		}));	// add current entry to the list
+
+		const index = entries.length - 1;
+		const editable = this.state.editable;
+		// @ts-ignore
+		editable[index] = true;
+
+		this.setState({
+			entries,
+			editable,
+		}, () => {
+			this.context.getDay(this.props.date).updateEntries(entries);
+		});
+	}
+
+	addPlay(e: React.MouseEvent | null) {
+		if (e) {
+			e.preventDefault();
+		}
+		const entries: TimeEntry[] = this.state.entries;
+
+		if (entries.length > 0) {
+			const lastEntry = entries[entries.length - 1];
+			lastEntry.finish();
+		}
+		entries.push(new TimeEntry({
 			start: moment().format('HH:mm'),
 		}));	// add current entry to the list
 		this.setState({
@@ -181,6 +231,15 @@ export class DayTable extends React.Component<{
 		}, () => {
 			this.context.getDay(this.props.date).updateEntries(entries);
 		});
+	}
+
+	makeEditable(e: Event, index: number, yesNo: boolean) {
+		const editable = this.state.editable;
+		// @ts-ignore
+		editable[index] = yesNo;
+		this.setState({
+			editable,
+		})
 	}
 
 }

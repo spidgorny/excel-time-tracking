@@ -51,7 +51,6 @@ export class Header extends React.Component<IHeaderProps, {
 						id="your_unique_id" // PropTypes.string.isRequired,
 						isOutsideRange={this.isOutsideRange.bind(this)}
 						isDayHighlighted={this.isDayHighlighted.bind(this)}
-						maxDate={moment().endOf('day')}
 						initialVisibleMonth={() => moment().endOf('month')}
 					/>
 					<button className="navbar-toggler" type="button" data-toggle="collapse"

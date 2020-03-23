@@ -12,6 +12,27 @@ export class DayTimeline extends React.Component<{
 	// @ts-ignore
 	context: AppState;
 
+	componentDidMount(): void {
+		document.addEventListener('keydown', (e) => this.keydownHandler(e));
+	}
+
+	keydownHandler(e: KeyboardEvent) {
+		//console.log(e.key, e.ctrlKey, e.metaKey);
+		const ctrl = (e.ctrlKey || e.metaKey) && e.shiftKey;
+		if (ctrl && e.key === 'ArrowLeft') {
+			// @ts-ignore
+			this.dayClick(e as unknown as Event, moment(this.props.date).subtract('1', 'day'));
+		}
+		if (ctrl && e.key === 'ArrowRight') {
+			// @ts-ignore
+			this.dayClick(e as unknown as Event, moment(this.props.date).add('1', 'day'));
+		}
+	}
+
+	componentWillUnmount(): void {
+		document.removeEventListener('keydown', (e) => this.keydownHandler(e));
+	}
+
 	render() {
 		const days = [];
 		const today = moment(this.props.date);
@@ -24,7 +45,9 @@ export class DayTimeline extends React.Component<{
 					const isWeekend = [6, 7].includes(day.isoWeekday()) ? 'weekend' : '';
 					const isToday = day.isSame(this.props.date, 'day') ? 'today' : '';
 					let dayBox = <div
-						className={"dayBox border text-center align-baseline " + [isWeekend, isToday].join(' ')}>
+						className={"dayBox border text-center align-baseline " + [isWeekend, isToday].join(' ')}
+						key={day.toISOString()}
+					>
 						{day.format('DD')}
 					</div>;
 					if (day.isSame(this.props.date, 'day')) {
@@ -32,7 +55,9 @@ export class DayTimeline extends React.Component<{
 					}
 					return (
 						<a href={'/day/' + day.format('YYYY-MM-DD')} onClick={(e) => this.dayClick(e, day)}
-						   style={{textDecoration: 'none'}}>
+						   style={{textDecoration: 'none'}}
+						   key={day.toISOString()}
+						>
 							{dayBox}
 						</a>
 					);
