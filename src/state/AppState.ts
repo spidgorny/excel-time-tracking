@@ -16,6 +16,11 @@ export class AppState extends AppStateBase {
 		this.rate = this.fetch('rate', 50);
 	}
 
+	setDate(date: Date) {
+		this.date = date;
+		this.notify();
+	}
+
 	getDay(date: Date) {
 		const ymd = moment(date).format('YYYY-MM-DD');
 		if (ymd in this.dayStateCache) {

@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
 import {DayTable} from "./components/DayTable";
-import {Link, Route, Router, Switch} from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import {createBrowserHistory} from 'history';
 import {GlobalContext} from "./state/GlobalContext";
 import {AppState} from "./state/AppState";
 import {Header} from "./components/Header";
 import moment from "moment";
-
 
 export const history = createBrowserHistory();
 
@@ -28,7 +27,9 @@ export class App extends React.Component<any, any> {
 				<main role="main" className="container-fluid">
 					<div className="h-100">
 						<Switch>
-							<Route path="/" exact component={DayTable}/>
+							<Route path="/" exact>
+								<DayTable date={this.context.date}/>
+							</Route>
 						</Switch>
 					</div>
 				</main>

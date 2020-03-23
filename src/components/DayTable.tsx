@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import {FaPlus} from "react-icons/fa";
+import {FaPlay, FaPlus} from "react-icons/fa";
 import {AppState} from "../state/AppState";
 import {GlobalContext} from "../state/GlobalContext";
 import {TimeEntry} from "../model/TimeEntry";
@@ -11,42 +11,30 @@ import {TimeEntryEdit} from "./TimeEntryEdit";
 const currencies = require('country-currency');
 
 interface IDayTableState {
-	date: Date;
 	entries: TimeEntry[];
 	// oneMore?: TimeEntry;
 }
 
-export class DayTable extends React.Component<{}, IDayTableState> {
+export class DayTable extends React.Component<{
+	date: Date;
+}, IDayTableState> {
 
 	static contextType = GlobalContext;
 	// @ts-ignore
 	context: AppState;
 
 	state = {
-		date: new Date(),
 		entries: [],
 		// oneMore: undefined,
 	};
 
-	componentDidMount(): void {
-		const entries = this.context.getDay(this.state.date).entries;
-		// console.log('componentDidMount', entries);
-		this.setState({
-			entries,
-		}, () => {
-			if (this.state.entries.length === 0) {
-				this.addRow(null);
-			}
-		});
-	}
-
 	get sumTime() {
-		const dayState = this.context.getDay(this.state.date);
+		const dayState = this.context.getDay(this.props.date);
 		return dayState.sumTime.asHours().toFixed(2);
 	}
 
 	get sumMoney() {
-		const dayState = this.context.getDay(this.state.date);
+		const dayState = this.context.getDay(this.props.date);
 		const byCountry = currencies.byCountry();
 		let countryCode = navigator.language.substr(3);
 		const currency = byCountry.get(countryCode);
@@ -62,7 +50,30 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 		}).format(amount);
 	}
 
+	componentDidMount(): void {
+		this.fetch();
+	}
+
+	fetch() {
+		const entries = this.context.getDay(this.props.date).entries;
+		// console.log('componentDidMount', entries);
+		this.setState({
+			entries,
+		}, () => {
+			if (this.state.entries.length === 0) {
+				// this.addRow(null);
+			}
+		});
+	}
+
+	componentDidUpdate(prevProps: any) {
+		if (prevProps.date !== this.props.date) {
+			this.fetch();
+		}
+	}
+
 	render() {
+		console.log('DayTable.render', this.props.date);
 		return (
 			<Table>
 				<thead className="thead-light">
@@ -75,14 +86,26 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 				</thead>
 				{this.state.entries.map((te: TimeEntry, index: number) =>
 					te.end ?
-						<TimeEntryRow date={this.state.date}
+						<TimeEntryRow date={this.props.date}
 													timeEntry={te} key={index}
 													onChange={e => this.onChange(e, index)}/>
 						:
-						<TimeEntryEdit date={this.state.date}
+						<TimeEntryEdit date={this.props.date}
 													 timeEntry={te} key={index}
 													 onChange={e => this.onChange(e, index)}/>
 				)}
+				{!this.state.entries.length ?
+					<tbody>
+					<tr>
+						<td colSpan={4}>
+							<a href="/start" className="btn btn-primary"
+								 onClick={this.startWorking.bind(this)}>
+								<FaPlay/>
+							</a>
+						</td>
+					</tr>
+					</tbody>
+					: null}
 				<tfoot className="tfoot-light" style={{
 					color: '#495057',
 					backgroundColor: '#e9ecef',
@@ -104,6 +127,10 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 				</tfoot>
 			</Table>
 		);
+	}
+
+	startWorking(e: React.MouseEvent) {
+		this.addRow(e);
 	}
 
 	onChange(e: React.ChangeEvent, index: number) {
@@ -132,7 +159,7 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 		this.setState({
 			entries,
 		});
-		this.context.getDay(this.state.date)
+		this.context.getDay(this.props.date)
 			.updateEntries(this.state.entries);
 	}
 
@@ -152,7 +179,7 @@ export class DayTable extends React.Component<{}, IDayTableState> {
 		this.setState({
 			entries,
 		}, () => {
-			this.context.getDay(this.state.date).updateEntries(entries);
+			this.context.getDay(this.props.date).updateEntries(entries);
 		});
 	}
 

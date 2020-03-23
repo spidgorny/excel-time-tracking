@@ -1,12 +1,8 @@
 import React from "react";
 import {TimeEntry} from "../model/TimeEntry";
 import moment from "moment";
-import {GlobalContext} from "../state/GlobalContext";
-import {AppState} from "../state/AppState";
 import {TimeEntryRow} from "./TimeEntryRow";
 import {FaStop} from "react-icons/fa";
-
-const currencies = require('country-currency');
 
 interface ITimeEntryRowProps {
 	date: Date;

@@ -25,7 +25,7 @@ export class Header extends React.Component<IHeaderProps, {
 	};
 
 	isOutsideRange(date: moment.Moment) {
-		if (date.isAfter(moment())) {
+		if (date.isAfter(moment().endOf('day'))) {
 			return true;
 		}
 		return false;
@@ -51,6 +51,8 @@ export class Header extends React.Component<IHeaderProps, {
 						id="your_unique_id" // PropTypes.string.isRequired,
 						isOutsideRange={this.isOutsideRange.bind(this)}
 						isDayHighlighted={this.isDayHighlighted.bind(this)}
+						maxDate={moment().endOf('day')}
+						initialVisibleMonth={() => moment().endOf('month')}
 					/>
 					<button className="navbar-toggler" type="button" data-toggle="collapse"
 									data-target="#navbarNav"
@@ -76,6 +78,7 @@ export class Header extends React.Component<IHeaderProps, {
 
 	setDate(date: moment.Moment) {
 		console.log(date);
+		this.context.setDate(date.toDate());
 	}
 
 }
