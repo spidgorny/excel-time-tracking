@@ -73,7 +73,7 @@ export class DayTable extends React.Component<{
 	}
 
 	render() {
-		console.log('DayTable.render', this.props.date);
+		// console.log('DayTable.render', this.props.date);
 		return (
 			<Table>
 				<thead className="thead-light">

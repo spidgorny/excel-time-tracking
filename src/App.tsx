@@ -7,6 +7,7 @@ import {GlobalContext} from "./state/GlobalContext";
 import {AppState} from "./state/AppState";
 import {Header} from "./components/Header";
 import moment from "moment";
+import {DayTimeline} from "./components/DayTimeline";
 
 export const history = createBrowserHistory();
 
@@ -26,6 +27,7 @@ export class App extends React.Component<any, any> {
 				<Header date={moment(this.context.date)}/>
 				<main role="main" className="container-fluid">
 					<div className="h-100">
+						<DayTimeline date={this.context.date}/>
 						<Switch>
 							<Route path="/" exact>
 								<DayTable date={this.context.date}/>

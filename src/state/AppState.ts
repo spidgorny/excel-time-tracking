@@ -13,11 +13,13 @@ export class AppState extends AppStateBase {
 	constructor() {
 		super();
 		(window as any)['state'] = this;
+		this.date = this.fetch('date', this.date);
 		this.rate = this.fetch('rate', 50);
 	}
 
 	setDate(date: Date) {
 		this.date = date;
+		this.update('date', this.date);
 		this.notify();
 	}
 
