@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {DayTable} from "./components/DayTable";
-import {Route, Router, Switch} from "react-router-dom";
+import {Router} from "react-router-dom";
 import {createBrowserHistory} from 'history';
 import {GlobalContext} from "./state/GlobalContext";
 import {AppState} from "./state/AppState";
@@ -30,15 +30,11 @@ export class App extends React.Component<any, any> {
 				<main role="main" className="container-fluid">
 					<div className="h-100">
 						<DayTimeline date={this.context.date}/>
-						<Switch>
-							<Route path={`${this.props.location.pathname}/`} exact>
-								<DayTable date={this.context.date}/>
-								<div className="d-flex justify-content-between">
-									<WeekTotal date={this.context.date}/>
-									<MonthTotal date={this.context.date}/>
-								</div>
-							</Route>
-						</Switch>
+						<DayTable date={this.context.date}/>
+						<div className="d-flex justify-content-between">
+							<WeekTotal date={this.context.date}/>
+							<MonthTotal date={this.context.date}/>
+						</div>
 					</div>
 				</main>
 				<footer className="container-fluid">
