@@ -1,7 +1,7 @@
 # Excel Time Tracking with React
 ## because Excel is boooring
 
-![screenshot](docs/2020-03-24_12_56_04-React App.png)
+![screenshot](docs/2020-03-24_12_56_04-React_App.png)
 
 Time tracking as easy as in Excel.
 
