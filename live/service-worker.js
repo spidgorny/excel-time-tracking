@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/excel-time-tracking/live/precache-manifest.21cfae0f6648a92ad68cafab2f03ce77.js"
+  "/excel-time-tracking/live/precache-manifest.c5d8b2e861baa6bd6ec991fbece96635.js"
 );
 
 self.addEventListener('message', (event) => {
