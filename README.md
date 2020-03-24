@@ -15,6 +15,10 @@ Time tracking as easy as in Excel.
 1. Calculate your earnings (daily, weekly, monthly).
 1. The data is stored in localStorage - it never leaves your device.
 
+<div style="font-size: xx-large; text-align: center">
+    <a href="/build">Try Now!</a>
+</div>
+
 ### Todo
 
 - [ ] Edit the rate/hour. Currently, hardcoded to $50.
