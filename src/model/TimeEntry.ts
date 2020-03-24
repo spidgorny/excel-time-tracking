@@ -5,8 +5,7 @@ export class TimeEntry extends POJO {
 
 	// @ts-ignore
 	start: string;
-	// @ts-ignore
-	end: string;
+	end: string | undefined;
 	comment: string | undefined;
 
 	constructor(props: any = {}) {

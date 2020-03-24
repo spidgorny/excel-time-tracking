@@ -9,8 +9,6 @@ import moment from "moment";
 import {TimeEntryEdit} from "./TimeEntryEdit";
 import {Earnings} from "./Earnings";
 
-const currencies = require('country-currency');
-
 interface IDayTableState {
 	entries: TimeEntry[];
 	editable: boolean[];

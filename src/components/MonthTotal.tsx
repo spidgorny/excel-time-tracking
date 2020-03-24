@@ -1,9 +1,6 @@
 import React from "react";
-import {AppState} from "../state/AppState";
-import {GlobalContext} from "../state/GlobalContext";
 import moment from "moment";
-import {Earnings} from "./Earnings";
-import {WeekTotal, WeekTotalComponent} from "./WeekTotal";
+import {WeekTotalComponent} from "./WeekTotal";
 // @ts-ignore
 import debounceRender from 'react-debounce-render';
 

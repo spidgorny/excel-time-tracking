@@ -2,7 +2,7 @@ import React from "react";
 import {TimeEntry} from "../model/TimeEntry";
 import moment from "moment";
 import {TimeEntryRow} from "./TimeEntryRow";
-import {FaStop} from "react-icons/fa";
+import {FaPlay, FaStop} from "react-icons/fa";
 
 interface ITimeEntryRowProps {
 	date: Date;
@@ -57,10 +57,15 @@ export class TimeEntryEdit extends TimeEntryRow {
 			<td>
 				<div className="d-flex">
 					{this.endValue ?
-						<input type="time" name="end" form="form1"
-							   value={this.endValue}
-							   onChange={this.props.onChange}
-							   className="form-control"/>
+						<>
+							<input type="time" name="end" form="form1"
+								   value={this.endValue}
+								   onChange={this.props.onChange}
+								   className="form-control"/>
+							<a href="/play" className="pl-3" onClick={this.play.bind(this)}>
+								<FaPlay/>
+							</a>
+						</>
 						:
 						<>
 							<output>
@@ -94,6 +99,13 @@ export class TimeEntryEdit extends TimeEntryRow {
 			</td>
 		</tr>
 		</tbody>;
+	}
+
+	play(e: React.MouseEvent) {
+		e.preventDefault();
+		this.props.timeEntry.end = undefined;
+		const dayStorage = this.context.getDay(this.props.date);
+		dayStorage.updateOne(this.props.timeEntry);
 	}
 
 	stop(e: React.MouseEvent) {
