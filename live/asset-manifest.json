@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.023076f3.chunk.css",
-    "main.js": "/static/js/main.cb1e4d8a.chunk.js",
-    "main.js.map": "/static/js/main.cb1e4d8a.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.dbd48966.js",
-    "runtime-main.js.map": "/static/js/runtime-main.dbd48966.js.map",
-    "static/css/2.38e38cca.chunk.css": "/static/css/2.38e38cca.chunk.css",
-    "static/js/2.55a70249.chunk.js": "/static/js/2.55a70249.chunk.js",
-    "static/js/2.55a70249.chunk.js.map": "/static/js/2.55a70249.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.b71a66af2c48b25faded009553255db3.js": "/precache-manifest.b71a66af2c48b25faded009553255db3.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.38e38cca.chunk.css.map": "/static/css/2.38e38cca.chunk.css.map",
-    "static/css/main.023076f3.chunk.css.map": "/static/css/main.023076f3.chunk.css.map",
-    "static/js/2.55a70249.chunk.js.LICENSE.txt": "/static/js/2.55a70249.chunk.js.LICENSE.txt"
+    "main.css": "/excel-time-tracking/live/static/css/main.023076f3.chunk.css",
+    "main.js": "/excel-time-tracking/live/static/js/main.dc8a9b27.chunk.js",
+    "main.js.map": "/excel-time-tracking/live/static/js/main.dc8a9b27.chunk.js.map",
+    "runtime-main.js": "/excel-time-tracking/live/static/js/runtime-main.87a71728.js",
+    "runtime-main.js.map": "/excel-time-tracking/live/static/js/runtime-main.87a71728.js.map",
+    "static/css/2.38e38cca.chunk.css": "/excel-time-tracking/live/static/css/2.38e38cca.chunk.css",
+    "static/js/2.55a70249.chunk.js": "/excel-time-tracking/live/static/js/2.55a70249.chunk.js",
+    "static/js/2.55a70249.chunk.js.map": "/excel-time-tracking/live/static/js/2.55a70249.chunk.js.map",
+    "index.html": "/excel-time-tracking/live/index.html",
+    "precache-manifest.21cfae0f6648a92ad68cafab2f03ce77.js": "/excel-time-tracking/live/precache-manifest.21cfae0f6648a92ad68cafab2f03ce77.js",
+    "service-worker.js": "/excel-time-tracking/live/service-worker.js",
+    "static/css/2.38e38cca.chunk.css.map": "/excel-time-tracking/live/static/css/2.38e38cca.chunk.css.map",
+    "static/css/main.023076f3.chunk.css.map": "/excel-time-tracking/live/static/css/main.023076f3.chunk.css.map",
+    "static/js/2.55a70249.chunk.js.LICENSE.txt": "/excel-time-tracking/live/static/js/2.55a70249.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.dbd48966.js",
+    "static/js/runtime-main.87a71728.js",
     "static/css/2.38e38cca.chunk.css",
     "static/js/2.55a70249.chunk.js",
     "static/css/main.023076f3.chunk.css",
-    "static/js/main.cb1e4d8a.chunk.js"
+    "static/js/main.dc8a9b27.chunk.js"
   ]
 }
