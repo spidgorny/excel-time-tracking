@@ -31,7 +31,7 @@ export class App extends React.Component<any, any> {
 					<div className="h-100">
 						<DayTimeline date={this.context.date}/>
 						<Switch>
-							<Route path="/" exact>
+							<Route path={`${this.props.location.pathname}/`} exact>
 								<DayTable date={this.context.date}/>
 								<div className="d-flex justify-content-between">
 									<WeekTotal date={this.context.date}/>
