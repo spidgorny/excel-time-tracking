@@ -3,9 +3,11 @@ import {AppState} from "../state/AppState";
 import {GlobalContext} from "../state/GlobalContext";
 import moment from "moment";
 import {Earnings} from "./Earnings";
-import {WeekTotal} from "./WeekTotal";
+import {WeekTotal, WeekTotalComponent} from "./WeekTotal";
+// @ts-ignore
+import debounceRender from 'react-debounce-render';
 
-export class MonthTotal extends WeekTotal {
+export class MonthTotalComponent extends WeekTotalComponent {
 
 	get dateRange() {
 		const dateRange = [];
@@ -24,3 +26,5 @@ export class MonthTotal extends WeekTotal {
 	}
 
 }
+
+export const MonthTotal = debounceRender(MonthTotalComponent);

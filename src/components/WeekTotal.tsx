@@ -3,10 +3,12 @@ import {AppState} from "../state/AppState";
 import {GlobalContext} from "../state/GlobalContext";
 import moment from "moment";
 import {Earnings} from "./Earnings";
+// @ts-ignore
+import debounceRender from 'react-debounce-render';
 
 const findHashtags = require('find-hashtags');
 
-export class WeekTotal extends React.Component<{
+export class WeekTotalComponent extends React.Component<{
 	date: Date;
 }, {}> {
 
@@ -42,7 +44,7 @@ export class WeekTotal extends React.Component<{
 	}
 
 	get hashtags() {
-		const tagTimes: any = {};
+		const tagTimes: { [key: string]: number } = {};
 		for (const dayState of this.dateRange) {
 			for (const te of dayState.entries) {
 				const tags = findHashtags(te.comment);
@@ -54,7 +56,10 @@ export class WeekTotal extends React.Component<{
 				}
 			}
 		}
-		return tagTimes;
+		const sorted = Object.entries(tagTimes).sort((a: [string, number], b: [string, number]) => {
+			return b[1] as number - a[1];	// value
+		});
+		return Object.fromEntries(sorted);
 	}
 
 	get title() {
@@ -77,12 +82,14 @@ export class WeekTotal extends React.Component<{
 						<li className="list-group-item d-flex justify-content-between" key={tag}>
 							{tag}
 							<span className="badge badge-primary badge-pill">
-									{hashtags[tag]}h
+									{hashtags[tag].toFixed(2)}h
 								</span>
 						</li>
 					))}
 				</ul>
-				</div>
+			</div>
 		);
 	}
 }
+
+export const WeekTotal = debounceRender(WeekTotalComponent);
