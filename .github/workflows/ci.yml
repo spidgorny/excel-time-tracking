@@ -21,3 +21,4 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: master
           FOLDER: build
+          TARGET_FOLDER: live

@@ -16,8 +16,10 @@ Time tracking as easy as in Excel.
 1. The data is stored in localStorage - it never leaves your device.
 
 <div style="font-size: xx-large; text-align: center">
-    <a href="/build">Try Now!</a>
+    <a href="https://spidgorny.github.io/excel-time-tracking/live">Try Now!</a>
 </div>
+
+[GitHub Repo](https://github.com/spidgorny/excel-time-tracking)
 
 ### Todo
 
