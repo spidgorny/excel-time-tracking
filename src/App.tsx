@@ -7,7 +7,7 @@ import {GlobalContext} from "./state/GlobalContext";
 import {AppState} from "./state/AppState";
 import {Header} from "./components/Header";
 import moment from "moment";
-import {DayTimeline} from "./components/DayTimeline";
+import {DayPicker} from "./components/DayPicker";
 import {WeekTotal} from "./components/WeekTotal";
 import {MonthTotal} from "./components/MonthTotal";
 
@@ -29,7 +29,7 @@ export class App extends React.Component<any, any> {
 				<Header date={moment(this.context.date)}/>
 				<main role="main" className="container-fluid">
 					<div className="h-100">
-						<DayTimeline date={this.context.date}/>
+						<DayPicker date={this.context.date}/>
 						<DayTable date={this.context.date}/>
 						<div className="d-flex justify-content-between">
 							<WeekTotal date={this.context.date}/>

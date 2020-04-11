@@ -4,7 +4,7 @@ import './DayTimeline.scss';
 import {GlobalContext} from "../state/GlobalContext";
 import {AppState} from "../state/AppState";
 
-export class DayTimeline extends React.Component<{
+export class DayPicker extends React.Component<{
 	date: Date;
 }, {}> {
 
