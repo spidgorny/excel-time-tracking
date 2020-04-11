@@ -10,6 +10,7 @@ import moment from "moment";
 import {DayPicker} from "./components/DayPicker";
 import {WeekTotal} from "./components/WeekTotal";
 import {MonthTotal} from "./components/MonthTotal";
+import {DayTimeline} from "./components/DayTimeline";
 
 export const history = createBrowserHistory();
 
@@ -30,6 +31,7 @@ export class App extends React.Component<any, any> {
 				<main role="main" className="container-fluid">
 					<div className="h-100">
 						<DayPicker date={this.context.date}/>
+						<DayTimeline workEntries={this.context.getDay(this.context.date).entries}/>
 						<DayTable date={this.context.date}/>
 						<div className="d-flex justify-content-between">
 							<WeekTotal date={this.context.date}/>
