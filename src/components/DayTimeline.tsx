@@ -12,8 +12,18 @@ export class DayTimeline extends React.Component<{
 	// @ts-ignore
 	context: AppState;
 
-	componentDidMount(): void {
-		document.addEventListener('keydown', (e) => this.keydownHandler(e));
+	myInput: any;
+
+	constructor(props: any) {
+		super(props);
+		this.myInput = React.createRef();
+	}
+
+	get range() {
+		if (this.myInput.current) {
+			return Math.round(this.myInput.current.offsetWidth / 32 / 2) - 1;
+		}
+		return 10;
 	}
 
 	keydownHandler(e: KeyboardEvent) {
@@ -29,18 +39,39 @@ export class DayTimeline extends React.Component<{
 		}
 	}
 
+	componentDidMount(): void {
+		document.addEventListener('keydown', this.keydownHandler.bind(this));
+		console.log('width', this.myInput.current.offsetWidth, 'rerender');
+		if (this.myInput.current) {
+			window.addEventListener('resize', this.handleResize.bind(this));
+		}
+
+		this.forceUpdate();	// width calculated - re-render with dates
+	}
+
 	componentWillUnmount(): void {
-		document.removeEventListener('keydown', (e) => this.keydownHandler(e));
+		document.removeEventListener('keydown', this.keydownHandler.bind(this));
+		window.removeEventListener('resize', this.handleResize.bind(this));
+	}
+
+	handleResize() {
+		console.log('resize');
+		this.forceUpdate();
 	}
 
 	render() {
 		const days = [];
 		const today = moment(this.props.date);
-		for (let i = -10; i <= 10; i++) {
+		for (let i = -this.range; i <= this.range; i++) {
 			days.push(today.clone().add(i, 'days'));
 		}
+
+		if (!this.myInput.current) {
+			return <div className="d-flex justify-content-center mb-3" ref={this.myInput}/>;
+		}
+
 		return (
-			<div className="d-flex justify-content-center mb-3">
+			<div className="d-flex justify-content-center mb-3" ref={this.myInput}>
 				{days.map(day => {
 					const isWeekend = [6, 7].includes(day.isoWeekday()) ? 'weekend' : '';
 					const isToday = day.isSame(this.props.date, 'day') ? 'today' : '';
