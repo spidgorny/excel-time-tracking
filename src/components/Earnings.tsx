@@ -25,9 +25,22 @@ export class Earnings extends React.Component<{
 			currency,
 		}).format(amount);
 		return (
-			<>
+			<span onClick={this.askPrice.bind(this)}>
 				{result}
-			</>
+			</span>
 		);
 	}
+
+	askPrice() {
+		const price = prompt('Price per Hour?');
+		if (!price) {
+			return;
+		}
+		const iPrice = parseFloat(price);
+		if (!iPrice) {
+			return;
+		}
+		this.context.setRate(iPrice);
+	}
+
 }
