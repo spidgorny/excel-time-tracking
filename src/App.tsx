@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {DayTable} from "./components/DayTable";
-import {Router} from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import {createBrowserHistory} from 'history';
 import {GlobalContext} from "./state/GlobalContext";
 import {AppState} from "./state/AppState";
@@ -11,6 +11,7 @@ import {DayPicker} from "./components/DayPicker";
 import {WeekTotal} from "./components/WeekTotal";
 import {MonthTotal} from "./components/MonthTotal";
 import {DayTimeline} from "./components/DayTimeline";
+import {Report} from "./page/Report";
 
 export const history = createBrowserHistory();
 
@@ -30,13 +31,18 @@ export class App extends React.Component<any, any> {
 				<Header date={moment(this.context.date)}/>
 				<main role="main" className="container-fluid">
 					<div className="h-100">
-						<DayPicker date={this.context.date}/>
-						<DayTimeline workEntries={this.context.getDay(this.context.date).entries}/>
-						<DayTable date={this.context.date}/>
-						<div className="d-flex justify-content-between">
-							<WeekTotal date={this.context.date}/>
-							<MonthTotal date={this.context.date}/>
-						</div>
+						<Switch>
+							<Route exact path="/">
+								<DayPicker date={this.context.date}/>
+								<DayTimeline workEntries={this.context.getDay(this.context.date).entries}/>
+								<DayTable date={this.context.date}/>
+								<div className="d-flex justify-content-between">
+									<WeekTotal date={this.context.date}/>
+									<MonthTotal date={this.context.date}/>
+								</div>
+							</Route>
+							<Route path="/report" component={Report}/>
+						</Switch>
 					</div>
 				</main>
 				<footer className="container-fluid">
@@ -45,7 +51,8 @@ export class App extends React.Component<any, any> {
 					</div>
 				</footer>
 			</Router>
-		);
+		)
+			;
 	}
 
 
