@@ -12,6 +12,7 @@ import { WeekTotal } from "./components/WeekTotal";
 import { MonthTotal } from "./components/MonthTotal";
 import KeyHandler from "./components/key-handler";
 import { Col, Row } from "react-bootstrap";
+import KeyNav from "./components/key-nav";
 
 export const history = createBrowserHistory();
 
@@ -59,6 +60,7 @@ export class App extends React.Component<any, any> {
           </div>
         </footer>
         <KeyHandler appState={this.context} />
+        <KeyNav appState={this.context} />
       </Router>
     );
   }

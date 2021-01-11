@@ -29,9 +29,19 @@ export class DayTable extends React.Component<
     editable: [],
   };
 
-  get sumTime() {
+  get sumHours() {
     const dayState = this.context.getDay(this.props.date);
     return dayState.sumTime.asHours().toFixed(2);
+  }
+
+  get sumTime() {
+    const dayState = this.context.getDay(this.props.date);
+    const duration = dayState.sumTime;
+    let hh = duration.get("hours");
+    let mm = duration.get("minutes");
+    return (
+      hh.toString().padStart(2, "0") + ":" + mm.toString().padStart(2, "0")
+    );
   }
 
   get sumMoney() {
@@ -146,14 +156,15 @@ export class DayTable extends React.Component<
               <FaPlus />
             </a>
           </Col>
-          <Col>
-            {moment(this.props.date).isSame(moment(), "day") ? (
-              <a href="/addPlay" onClick={this.addPlay.bind(this)}>
-                <FaPlay />
-              </a>
-            ) : null}
-          </Col>
-          <Col className="text-right">{this.sumTime} h</Col>
+          {/*<Col>*/}
+          {/*{moment(this.props.date).isSame(moment(), "day") ? (*/}
+          {/*  <a href="/addPlay" onClick={this.addPlay.bind(this)}>*/}
+          {/*    <FaPlay />*/}
+          {/*  </a>*/}
+          {/*) : null}*/}
+          {/*</Col>*/}
+          <Col className="text-right">{this.sumTime}</Col>
+          <Col className="text-right">{this.sumHours} h</Col>
           <Col className="text-right">{this.sumMoney}</Col>
           <Col />
         </Row>

@@ -22,6 +22,14 @@ export class AppState extends AppStateBase {
     this.notify();
   }
 
+  incDate() {
+    this.setDate(moment(this.date).add(1, "day").toDate());
+  }
+
+  decDate() {
+    this.setDate(moment(this.date).subtract(1, "day").toDate());
+  }
+
   getDay(date: Date) {
     const ymd = moment(date).format("YYYY-MM-DD");
     if (ymd in this.dayStateCache) {
