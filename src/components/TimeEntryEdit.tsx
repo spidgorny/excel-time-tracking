@@ -3,6 +3,7 @@ import React from "react";
 import moment from "moment";
 import { TimeEntryRow } from "./TimeEntryRow";
 import { FaPlay, FaStop } from "react-icons/fa";
+import { Col, Row } from "react-bootstrap";
 
 // interface ITimeEntryRowProps {
 // 	date: Date;
@@ -29,6 +30,9 @@ export class TimeEntryEdit extends TimeEntryRow {
     if (e.key === "Enter" && e.ctrlKey) {
       this.props.makeEditable(e, false);
     }
+    if (e.key === "Backspace" && e.ctrlKey) {
+      this.props.remove();
+    }
   }
 
   componentDidMount(): void {
@@ -44,73 +48,61 @@ export class TimeEntryEdit extends TimeEntryRow {
 
   render() {
     return (
-      <tbody className="timeEntryRow">
-        <tr>
-          <td>
-            <input
-              type="time"
-              name="start"
-              form="form1"
-              value={this.startValue}
-              onChange={this.props.onChange}
-              className="form-control"
-              ref={this.textInput}
-            />
-          </td>
-          <td>
-            <div className="d-flex">
-              {this.endValue ? (
-                <>
-                  <input
-                    type="time"
-                    name="end"
-                    form="form1"
-                    value={this.endValue}
-                    onChange={this.props.onChange}
-                    className="form-control"
-                  />
-                  <a
-                    href="/play"
-                    className="pl-3"
-                    onClick={this.play.bind(this)}
-                  >
-                    <FaPlay />
-                  </a>
-                </>
-              ) : (
-                <>
-                  <output>{this.endOutput}</output>
-                  <a
-                    href="/stop"
-                    className="pl-3"
-                    onClick={this.stop.bind(this)}
-                  >
-                    <FaStop />
-                  </a>
-                </>
-              )}
-            </div>
-          </td>
-          <td className="text-right">
-            <output>{this.duration}</output>
-          </td>
-          <td className="text-right">
-            <output>{this.earnings}</output>
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={6}>
-            <textarea
-              name="comment"
-              placeholder="comment"
-              className="form-control"
-              form="form1"
-              onChange={this.props.onChange}
-              value={this.props.timeEntry.comment}
-            />
-          </td>
-        </tr>
-      </tbody>
+      <Row className="timeEntryRow">
+        <Col>
+          <input
+            type="time"
+            name="start"
+            form="form1"
+            value={this.startValue}
+            onChange={this.props.onChange}
+            className="form-control"
+            ref={this.textInput}
+          />
+        </Col>
+        <Col>
+          <div className="d-flex">
+            {this.endValue ? (
+              <>
+                <input
+                  type="time"
+                  name="end"
+                  form="form1"
+                  value={this.endValue}
+                  onChange={this.props.onChange}
+                  className="form-control"
+                />
+                <a href="/play" className="pl-3" onClick={this.play.bind(this)}>
+                  <FaPlay />
+                </a>
+              </>
+            ) : (
+              <>
+                <output>{this.endOutput}</output>
+                <a href="/stop" className="pl-3" onClick={this.stop.bind(this)}>
+                  <FaStop />
+                </a>
+              </>
+            )}
+          </div>
+        </Col>
+        <Col className="text-right">
+          <output>{this.duration}</output>
+        </Col>
+        <Col className="text-right">
+          <output>{this.earnings}</output>
+        </Col>
+        <Col>
+          <textarea
+            name="comment"
+            placeholder="comment"
+            className="form-control"
+            form="form1"
+            onChange={this.props.onChange}
+            value={this.props.timeEntry.comment}
+          />
+        </Col>
+      </Row>
     );
   }
 

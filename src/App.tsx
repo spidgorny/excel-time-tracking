@@ -10,6 +10,8 @@ import moment from "moment";
 import { DayTimeline } from "./components/DayTimeline";
 import { WeekTotal } from "./components/WeekTotal";
 import { MonthTotal } from "./components/MonthTotal";
+import KeyHandler from "./components/key-handler";
+import { Col, Row } from "react-bootstrap";
 
 export const history = createBrowserHistory();
 
@@ -43,9 +45,20 @@ export class App extends React.Component<any, any> {
         </main>
         <footer className="container-fluid mt-3 pt-2 border-top">
           <div className="inner">
-            &copy; 2020 <a href="https://github.com/spidgorny/">Slawa</a>
+            <div>
+              &copy; 2021 <a href="https://github.com/spidgorny/">Slawa</a>
+            </div>
+            <Row>
+              <Col>
+                <kbd>Ctrl-Enter</kbd>: save, <kbd>Ctrl-Backspace</kbd>: remove
+              </Col>
+              <Col>
+                <kbd>Ctrl-C</kbd>, <kbd>Ctrl-V</kbd>: clipboard
+              </Col>
+            </Row>
           </div>
         </footer>
+        <KeyHandler appState={this.context} />
       </Router>
     );
   }
