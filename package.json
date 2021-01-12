@@ -2,7 +2,7 @@
   "name": "excel-time-tracking",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://spidgorny.github.io/excel-time-tracking/live/",
+  "homepage2": "https://spidgorny.github.io/excel-time-tracking/live/",
   "dependencies": {
     "bootstrap": "^4.5.3",
     "country-currency": "^1.0.1",

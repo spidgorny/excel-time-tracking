@@ -1,18 +1,13 @@
 import React from "react";
-import {Link, withRouter} from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 // @ts-ignore
 import { SingleDatePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
 import "react-dates/initialize";
 import moment from "moment";
-// import { GlobalContext } from "../state/GlobalContext";
-// import { AppState } from "../state/AppState";
 import { DaysState } from "../state/DaysState";
-import {GlobalContext} from "../state/GlobalContext";
-import {AppState} from "../state/AppState";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import {RouteComponentProps} from "react-router";
+import { RouteComponentProps } from "react-router";
 
 interface IHeaderProps extends RouteComponentProps {
   date: moment.Moment;
@@ -20,7 +15,9 @@ interface IHeaderProps extends RouteComponentProps {
   setDate: (date: Date) => void;
 }
 
-class HeaderClass extends React.Component<IHeaderProps, {
+class HeaderClass extends React.Component<
+  IHeaderProps,
+  {
     focused: boolean;
   }
 > {
@@ -49,10 +46,10 @@ class HeaderClass extends React.Component<IHeaderProps, {
   render() {
     return (
       <header className="mb-3">
-				<Navbar className="navbar navbar-expand-lg navbar-light bg-light">
-					<Navbar.Brand className="navbar-brand">
+        <Navbar className="navbar navbar-expand-lg navbar-light bg-light">
+          <Navbar.Brand className="navbar-brand">
             <a href=".">excel-time-tracking</a>
-					</Navbar.Brand>
+          </Navbar.Brand>
           <SingleDatePicker
             date={this.props.date} // momentPropTypes.momentObj or null
             onDateChange={(date: moment.Moment) => this.setDate(date)} // PropTypes.func.isRequired
@@ -74,30 +71,34 @@ class HeaderClass extends React.Component<IHeaderProps, {
           >
             <span className="navbar-toggler-icon" />
           </button>
-          <div
+
+          <Navbar.Collapse
             className="collapse navbar-collapse justify-content-between"
             id="navbarNav"
           >
-					<Navbar.Collapse className="collapse navbar-collapse justify-content-between" id="navbarNav">
             <div />
             <div className="navbar-nav">
-              <Link className="nav-link active" to=".">
+              <Link
+                className={[
+                  "nav-link",
+                  this.props.location.pathname === "/" ? "active" : "",
+                ].join(" ")}
+                to="/"
+              >
                 Home
               </Link>
-              <a
-                className="nav-link"
-                href="/logout"
-                onClick={this.logout.bind(this)}
+              <Link
+                className={[
+                  "nav-link",
+                  this.props.location.pathname === "/report" ? "active" : "",
+                ].join(" ")}
+                to="/report"
               >
-                Logout
-              </a>
-							<Link className={['nav-link', this.props.location.pathname === '/' ? 'active' : ''].join(' ')}
-										to="/">Home</Link>
-							<Link className={['nav-link', this.props.location.pathname === '/report' ? 'active' : ''].join(' ')}
-										to="/report">Report</Link>
+                Report
+              </Link>
             </div>
-					</Navbar.Collapse>
-				</Navbar>
+          </Navbar.Collapse>
+        </Navbar>
       </header>
     );
   }
