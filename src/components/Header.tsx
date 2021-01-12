@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 // @ts-ignore
 import { SingleDatePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
@@ -8,16 +8,19 @@ import moment from "moment";
 // import { GlobalContext } from "../state/GlobalContext";
 // import { AppState } from "../state/AppState";
 import { DaysState } from "../state/DaysState";
+import {GlobalContext} from "../state/GlobalContext";
+import {AppState} from "../state/AppState";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import {RouteComponentProps} from "react-router";
 
-interface IHeaderProps {
+interface IHeaderProps extends RouteComponentProps {
   date: moment.Moment;
   day: DaysState;
   setDate: (date: Date) => void;
 }
 
-export class Header extends React.Component<
-  IHeaderProps,
-  {
+class HeaderClass extends React.Component<IHeaderProps, {
     focused: boolean;
   }
 > {
@@ -46,10 +49,10 @@ export class Header extends React.Component<
   render() {
     return (
       <header className="mb-3">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <h3 className="navbar-brand">
+				<Navbar className="navbar navbar-expand-lg navbar-light bg-light">
+					<Navbar.Brand className="navbar-brand">
             <a href=".">excel-time-tracking</a>
-          </h3>
+					</Navbar.Brand>
           <SingleDatePicker
             date={this.props.date} // momentPropTypes.momentObj or null
             onDateChange={(date: moment.Moment) => this.setDate(date)} // PropTypes.func.isRequired
@@ -75,6 +78,7 @@ export class Header extends React.Component<
             className="collapse navbar-collapse justify-content-between"
             id="navbarNav"
           >
+					<Navbar.Collapse className="collapse navbar-collapse justify-content-between" id="navbarNav">
             <div />
             <div className="navbar-nav">
               <Link className="nav-link active" to=".">
@@ -87,9 +91,13 @@ export class Header extends React.Component<
               >
                 Logout
               </a>
+							<Link className={['nav-link', this.props.location.pathname === '/' ? 'active' : ''].join(' ')}
+										to="/">Home</Link>
+							<Link className={['nav-link', this.props.location.pathname === '/report' ? 'active' : ''].join(' ')}
+										to="/report">Report</Link>
             </div>
-          </div>
-        </nav>
+					</Navbar.Collapse>
+				</Navbar>
       </header>
     );
   }
@@ -102,3 +110,5 @@ export class Header extends React.Component<
     this.props.setDate(date.toDate());
   }
 }
+
+export var Header = withRouter(HeaderClass);

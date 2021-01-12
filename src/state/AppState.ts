@@ -8,6 +8,7 @@ export class AppState extends AppStateBase {
   dayStateCache: {
     [key: string]: DaysState;
   } = {};
+	price: number = 50;
 
   constructor() {
     super();
@@ -50,6 +51,11 @@ export class AppState extends AppStateBase {
     return daysState;
   }
 
+	setRate(rate: number) {
+		this.rate = rate;
+		this.update('rate', this.rate);
+		this.notify();
+	}
   getCurrentEntries() {
     const ymd = moment(this.date).format("YYYY-MM-DD");
     // console.log("getCurrentEntries", ymd);
