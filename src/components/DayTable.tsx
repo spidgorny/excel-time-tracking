@@ -8,21 +8,23 @@ import moment from "moment";
 import { TimeEntryEdit } from "./TimeEntryEdit";
 import { Earnings } from "./Earnings";
 import { Col, Container, Row } from "react-bootstrap";
+import { DaysState } from "../state/DaysState";
+
+interface Props {
+  date: Date;
+  day: DaysState;
+}
 
 interface IDayTableState {
   entries: TimeEntry[];
   editable: boolean[];
 }
 
-export class DayTable extends React.Component<
-  {
-    date: Date;
-  },
-  IDayTableState
-> {
-  static contextType = GlobalContext;
+export class DayTable extends React.Component<Props, IDayTableState> {
+  // static contextType = GlobalContext;
   // @ts-ignore
-  context: AppState;
+  // context: AppState;
+  context: undefined;
 
   state = {
     entries: [],
@@ -30,12 +32,14 @@ export class DayTable extends React.Component<
   };
 
   get sumHours() {
-    const dayState = this.context.getDay(this.props.date);
+    // const dayState = this.context.getDay(this.props.date);
+    const dayState = this.props.day;
     return dayState.sumTime.asHours().toFixed(2);
   }
 
   get sumTime() {
-    const dayState = this.context.getDay(this.props.date);
+    // const dayState = this.context.getDay(this.props.date);
+    const dayState = this.props.day;
     const duration = dayState.sumTime;
     let hh = duration.get("hours");
     let mm = duration.get("minutes");
@@ -45,7 +49,8 @@ export class DayTable extends React.Component<
   }
 
   get sumMoney() {
-    const dayState = this.context.getDay(this.props.date);
+    // const dayState = this.context.getDay(this.props.date);
+    const dayState = this.props.day;
     const hours = dayState.sumTime.asHours();
     return <Earnings hours={hours} />;
   }
@@ -56,7 +61,9 @@ export class DayTable extends React.Component<
   }
 
   fetch() {
-    const entries = this.context.getDay(this.props.date).entries;
+    // const dayState = this.context.getDay(this.props.date);
+    const dayState = this.props.day;
+    const entries = dayState.entries;
     // console.log('componentDidMount', entries);
     this.setState(
       {
@@ -113,7 +120,7 @@ export class DayTable extends React.Component<
               timeEntry={te}
               key={index}
               onChange={(e) => this.onChange(e, index)}
-              makeEditable={(e, yesNo) => this.makeEditable(e, index, yesNo)}
+              makeEditable={(yesNo) => this.makeEditable(index, yesNo)}
               remove={() => {}}
             />
           ) : (
@@ -122,7 +129,7 @@ export class DayTable extends React.Component<
               timeEntry={te}
               key={index}
               onChange={(e) => this.onChange(e, index)}
-              makeEditable={(e, yesNo) => this.makeEditable(e, index, yesNo)}
+              makeEditable={(yesNo) => this.makeEditable(index, yesNo)}
               remove={this.remove.bind(this, index, te)}
             />
           )
@@ -206,7 +213,9 @@ export class DayTable extends React.Component<
     this.setState({
       entries,
     });
-    this.context.getDay(this.props.date).updateEntries(this.state.entries);
+    // const dayState = this.context.getDay(this.props.date);
+    const dayState = this.props.day;
+    dayState.updateEntries(this.state.entries);
   }
 
   addRow(e: React.MouseEvent | null) {
@@ -237,7 +246,9 @@ export class DayTable extends React.Component<
         editable,
       },
       () => {
-        this.context.getDay(this.props.date).updateEntries(entries);
+        // const dayState = this.context.getDay(this.props.date);
+        const dayState = this.props.day;
+        dayState.updateEntries(entries);
       }
     );
   }
@@ -262,12 +273,15 @@ export class DayTable extends React.Component<
         entries,
       },
       () => {
-        this.context.getDay(this.props.date).updateEntries(entries);
+        // this.context.getDay(this.props.date).updateEntries(entries);
+        // const dayState = this.context.getDay(this.props.date);
+        const dayState = this.props.day;
+        dayState.updateEntries(entries);
       }
     );
   }
 
-  makeEditable(e: Event, index: number, yesNo: boolean) {
+  makeEditable(index: number, yesNo: boolean) {
     const editable = this.state.editable;
     // @ts-ignore
     editable[index] = yesNo;
@@ -277,6 +291,9 @@ export class DayTable extends React.Component<
   }
 
   remove(index: number, te: TimeEntry) {
-    this.context.getCurrentEntries().remove(index);
+    // this.context.getCurrentEntries().remove(index);
+    // const dayState = this.context.getDay(this.props.date);
+    const dayState = this.props.day;
+    dayState.remove(index);
   }
 }

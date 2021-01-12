@@ -1,22 +1,21 @@
 export class POJO {
+  // [key: string]: any;
 
-	[key: string]: any;
+  constructor(props: any) {
+    Object.assign(this, props);
+  }
 
-	constructor(props: any) {
-		Object.assign(this, props);
-	}
+  assignProps(props: any) {
+    for (const key in props) {
+      if (props.hasOwnProperty(key)) {
+        console.log("this[", key, "] = ", props[key]);
+        // @ts-ignore
+        this[key] = props[key];
+      }
+    }
+  }
 
-	assignProps(props: any) {
-		for (const key in props) {
-			if (props.hasOwnProperty(key)) {
-				console.log('this[', key, '] = ', props[key]);
-				this[key] = props[key];
-			}
-		}
-	}
-
-	toJson() {
-		return JSON.stringify(this);
-	}
-
+  toJson() {
+    return JSON.stringify(this);
+  }
 }

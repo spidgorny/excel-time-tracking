@@ -48,4 +48,8 @@ export class DaysState extends AppStateBase {
     this.entries.splice(index, 1);
     this.notify();
   }
+
+  hash() {
+    return [this.date, ...this.entries.map((e) => e.hash())].join(".");
+  }
 }

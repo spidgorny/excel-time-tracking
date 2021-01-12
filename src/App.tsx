@@ -15,35 +15,64 @@ import { Col, Row } from "react-bootstrap";
 import KeyNav from "./components/key-nav";
 
 export const history = createBrowserHistory();
+const appState = new AppState();
+export var DateContext = React.createContext(new Date());
 
 export class App extends React.Component<any, any> {
-  static contextType = GlobalContext;
+  // static contextType = GlobalContext;
   // @ts-ignore
-  context: AppState;
+  // context: AppState;
+  context: undefined;
+
+  state: {
+    appState: AppState;
+    hash: string;
+  } = {
+    appState,
+    hash: appState.hash(),
+  };
 
   componentDidMount(): void {
-    this.context.subscribe(this.forceUpdate.bind(this));
+    // this.context.subscribe(this.forceUpdate.bind(this));
+    this.state.appState.subscribe(() =>
+      this.setState({
+        hash: appState.hash(),
+      })
+    );
   }
 
   render() {
+    const date = this.state.appState.date;
+    console.log("DateContext.Consumer", date);
     return (
       <Router history={history}>
-        <Header date={moment(this.context.date)} />
+        <Header
+          date={moment(date)}
+          day={appState.getDay(date)}
+          setDate={appState.setDate.bind(appState)}
+        />
         <main role="main" className="container-fluid">
           <div className="h-100">
-            <DayTimeline date={this.context.date} />
-            <DayTable date={this.context.date} />
-            <div
-              className="d-flex justify-content-between"
-              style={{
-                gap: 12,
-              }}
-            >
-              <WeekTotal date={this.context.date} />
-              <MonthTotal date={this.context.date} />
-            </div>
+            <DayTimeline
+              date={date}
+              setDate={appState.setDate.bind(appState)}
+            />
+            <GlobalContext.Provider value={appState}>
+              <DayTable date={date} day={appState.getDay(date)} />
+              <div
+                className="d-flex justify-content-between"
+                style={{
+                  gap: 12,
+                }}
+              >
+                <WeekTotal date={date} />
+                <MonthTotal date={date} />
+              </div>
+            </GlobalContext.Provider>
           </div>
         </main>
+        <KeyHandler appState={this.state.appState} />
+        <KeyNav appState={this.state.appState} />
         <footer className="container-fluid mt-3 pt-2 border-top">
           <div className="inner">
             <div>
@@ -51,7 +80,8 @@ export class App extends React.Component<any, any> {
             </div>
             <Row>
               <Col>
-                <kbd>Ctrl-Enter</kbd>: save, <kbd>Ctrl-Backspace</kbd>: remove
+                <kbd>Ins</kbd>: new line, <kbd>Ctrl-Enter</kbd>: save,{" "}
+                <kbd>Ctrl-Backspace</kbd>: remove
               </Col>
               <Col>
                 <kbd>Ctrl-C</kbd>, <kbd>Ctrl-V</kbd>: clipboard
@@ -59,8 +89,6 @@ export class App extends React.Component<any, any> {
             </Row>
           </div>
         </footer>
-        <KeyHandler appState={this.context} />
-        <KeyNav appState={this.context} />
       </Router>
     );
   }

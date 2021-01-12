@@ -16,7 +16,16 @@ export class AppState extends AppStateBase {
     this.rate = this.fetch("rate", 50);
   }
 
+  hash() {
+    return [
+      this.date.toString(),
+      this.rate,
+      ...Object.values(this.dayStateCache).map((e) => e.hash()),
+    ].join(".");
+  }
+
   setDate(date: Date) {
+    console.log("setDate", date);
     this.date = date;
     this.update("date", this.date);
     this.notify();
@@ -36,7 +45,7 @@ export class AppState extends AppStateBase {
       return this.dayStateCache[ymd];
     }
     let daysState = new DaysState(date);
-    daysState.subscribe(this.notify.bind(this));
+    // daysState.subscribe(this.notify.bind(this));
     this.dayStateCache[ymd] = daysState;
     return daysState;
   }

@@ -10,7 +10,7 @@ interface ITimeEntryRowProps {
   date: Date;
   timeEntry: TimeEntry;
   onChange: (e: React.ChangeEvent) => void;
-  makeEditable: (e: Event, yesOrNo: boolean) => void;
+  makeEditable: (yesOrNo: boolean) => void;
   remove: () => void;
 }
 
@@ -51,23 +51,17 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
     return (
       <>
         <Row>
-          <Col
-            onClick={(e: React.MouseEvent) =>
-              this.props.makeEditable((e as unknown) as Event, true)
-            }
-          >
+          <Col onClick={(e: React.MouseEvent) => this.props.makeEditable(true)}>
             {this.startValue}
           </Col>
-          <Col
-            onClick={(e: React.MouseEvent) =>
-              this.props.makeEditable((e as unknown) as Event, true)
-            }
-          >
+          <Col onClick={(e: React.MouseEvent) => this.props.makeEditable(true)}>
             {this.endValue}
           </Col>
           <Col className="text-right">{this.duration}</Col>
           <Col className="text-right">{this.earnings}</Col>
-          <Col>{this.props.timeEntry.comment}</Col>
+          <Col onClick={(e: React.MouseEvent) => this.props.makeEditable(true)}>
+            {this.props.timeEntry.comment}
+          </Col>
         </Row>
       </>
     );
