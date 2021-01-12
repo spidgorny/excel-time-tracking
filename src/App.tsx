@@ -34,16 +34,18 @@ export class App extends React.Component<any, any> {
 
   componentDidMount(): void {
     // this.context.subscribe(this.forceUpdate.bind(this));
-    this.state.appState.subscribe(() =>
+    this.state.appState.subscribe(() => {
+      const hash = appState.hash();
+      // console.log(hash);
       this.setState({
-        hash: appState.hash(),
-      })
-    );
+        hash,
+      });
+    });
   }
 
   render() {
     const date = this.state.appState.date;
-    console.log("DateContext.Consumer", date);
+    // console.log("DateContext.Consumer", date);
     return (
       <Router history={history}>
         <Header
@@ -58,15 +60,19 @@ export class App extends React.Component<any, any> {
               setDate={appState.setDate.bind(appState)}
             />
             <GlobalContext.Provider value={appState}>
-              <DayTable date={date} day={appState.getDay(date)} />
+              <DayTable
+                date={date}
+                day={appState.getDay(date)}
+                appState={this.state.appState}
+              />
               <div
                 className="d-flex justify-content-between"
                 style={{
                   gap: 12,
                 }}
               >
-                <WeekTotal date={date} />
-                <MonthTotal date={date} />
+                <WeekTotal date={date} appState={this.state.appState} />
+                <MonthTotal date={date} appState={this.state.appState} />
               </div>
             </GlobalContext.Provider>
           </div>

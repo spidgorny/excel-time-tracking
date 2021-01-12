@@ -1,8 +1,6 @@
 import React from "react";
 import moment from "moment";
 import "./DayTimeline.scss";
-import { GlobalContext } from "../state/GlobalContext";
-import { AppState } from "../state/AppState";
 
 interface Props {
   date: Date;

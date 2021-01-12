@@ -26,12 +26,12 @@ export default function KeyHandler(props: { appState: AppState }) {
         console.log(clipboard);
         props.appState.getCurrentEntries().updateEntries(clipboard.slice());
       } else if (event.key && event.key !== "Control") {
-        console.log(
-          event.ctrlKey ? "Ctrl" : "",
-          event.altKey ? "Alt" : "",
-          event.shiftKey ? "Shift" : "",
-          event.key
-        );
+        // console.log(
+        //   event.ctrlKey ? "Ctrl" : "",
+        //   event.altKey ? "Alt" : "",
+        //   event.shiftKey ? "Shift" : "",
+        //   event.key
+        // );
       }
     },
     [props.appState, props.appState.getCurrentEntries().entries, clipboard]

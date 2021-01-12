@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { AppState } from "../state/AppState";
-import { TimeEntry } from "../model/TimeEntry";
 
 export default function KeyNav(props: { appState: AppState }) {
   const escFunction = useCallback(
@@ -11,12 +10,12 @@ export default function KeyNav(props: { appState: AppState }) {
       } else if (event.key === "ArrowRight" && event.ctrlKey) {
         props.appState.incDate();
       } else if (event.key && event.key !== "Control") {
-        console.log(
-          event.ctrlKey ? "Ctrl" : "",
-          event.altKey ? "Alt" : "",
-          event.shiftKey ? "Shift" : "",
-          event.key
-        );
+        // console.log(
+        //   event.ctrlKey ? "Ctrl" : "",
+        //   event.altKey ? "Alt" : "",
+        //   event.shiftKey ? "Shift" : "",
+        //   event.key
+        // );
       }
     },
     [props.appState]

@@ -25,7 +25,7 @@ export class AppState extends AppStateBase {
   }
 
   setDate(date: Date) {
-    console.log("setDate", date);
+    // console.log("setDate", date);
     this.date = date;
     this.update("date", this.date);
     this.notify();
@@ -52,7 +52,7 @@ export class AppState extends AppStateBase {
 
   getCurrentEntries() {
     const ymd = moment(this.date).format("YYYY-MM-DD");
-    console.log("getCurrentEntries", ymd);
+    // console.log("getCurrentEntries", ymd);
     return this.getDay(this.date);
   }
 }

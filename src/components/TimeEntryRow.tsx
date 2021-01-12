@@ -1,23 +1,24 @@
 import React from "react";
 import { TimeEntry } from "../model/TimeEntry";
 import moment from "moment";
-import { GlobalContext } from "../state/GlobalContext";
-import { AppState } from "../state/AppState";
 import { Earnings } from "./Earnings";
 import { Col, Row } from "react-bootstrap";
+import { DaysState } from "../state/DaysState";
 
-interface ITimeEntryRowProps {
+export interface ITimeEntryRowProps {
   date: Date;
+  day: DaysState;
   timeEntry: TimeEntry;
-  onChange: (e: React.ChangeEvent) => void;
+  onChange: (e: HTMLFormElement) => void;
   makeEditable: (yesOrNo: boolean) => void;
   remove: () => void;
 }
 
 export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
-  static contextType = GlobalContext;
+  // static contextType = GlobalContext;
   // @ts-ignore
-  context: AppState;
+  // context: AppState;
+  context: undefined;
 
   get startValue() {
     if (this.props.timeEntry.start) {
@@ -51,15 +52,18 @@ export class TimeEntryRow extends React.Component<ITimeEntryRowProps> {
     return (
       <>
         <Row>
-          <Col onClick={(e: React.MouseEvent) => this.props.makeEditable(true)}>
+          <Col onClick={() => this.props.makeEditable(true)}>
             {this.startValue}
           </Col>
-          <Col onClick={(e: React.MouseEvent) => this.props.makeEditable(true)}>
+          <Col
+            className="text-right"
+            onClick={() => this.props.makeEditable(true)}
+          >
             {this.endValue}
           </Col>
           <Col className="text-right">{this.duration}</Col>
           <Col className="text-right">{this.earnings}</Col>
-          <Col onClick={(e: React.MouseEvent) => this.props.makeEditable(true)}>
+          <Col onClick={() => this.props.makeEditable(true)}>
             {this.props.timeEntry.comment}
           </Col>
         </Row>

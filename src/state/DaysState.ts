@@ -46,7 +46,7 @@ export class DaysState extends AppStateBase {
 
   remove(index: number) {
     this.entries.splice(index, 1);
-    this.notify();
+    this.notify(); // TODO: does nothing
   }
 
   hash() {

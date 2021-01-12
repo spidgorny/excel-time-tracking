@@ -1,28 +1,28 @@
 import React from "react";
 import { AppState } from "../state/AppState";
-import { GlobalContext } from "../state/GlobalContext";
 import moment from "moment";
 import { Earnings } from "./Earnings";
 // @ts-ignore
-import debounceRender from "react-debounce-render";
+// import debounceRender from "react-debounce-render";
 
 const findHashtags = require("find-hashtags");
 
-export class WeekTotalComponent extends React.Component<
-  {
-    date: Date;
-  },
-  {}
-> {
-  static contextType = GlobalContext;
+interface Props {
+  date: Date;
+  appState: AppState;
+}
+
+export class WeekTotalComponent extends React.Component<Props, {}> {
+  // static contextType = GlobalContext;
   // @ts-ignore
-  context: AppState;
+  // context: AppState;
+  context: undefined;
 
   get dateRange() {
     const dateRange = [];
     const monday = moment(this.props.date).startOf("week");
     for (let i = 0; i < 7; i++) {
-      const dayState = this.context.getDay(
+      const dayState = this.props.appState.getDay(
         monday.clone().add(i, "days").toDate()
       );
       dateRange.push(dayState);
@@ -77,7 +77,11 @@ export class WeekTotalComponent extends React.Component<
   }
 
   get title() {
-    return <h5>Week #{moment(this.props.date).isoWeek()} total</h5>;
+    return (
+      <h5 style={{ paddingTop: 0 }}>
+        Week #{moment(this.props.date).isoWeek()} total
+      </h5>
+    );
   }
 
   render() {
@@ -108,4 +112,5 @@ export class WeekTotalComponent extends React.Component<
   }
 }
 
-export const WeekTotal = debounceRender(WeekTotalComponent);
+// export const WeekTotal = debounceRender(WeekTotalComponent);
+export const WeekTotal = WeekTotalComponent;

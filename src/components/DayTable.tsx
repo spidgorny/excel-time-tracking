@@ -1,7 +1,6 @@
 import React from "react";
 import { FaPlay, FaPlus } from "react-icons/fa";
 import { AppState } from "../state/AppState";
-import { GlobalContext } from "../state/GlobalContext";
 import { TimeEntry } from "../model/TimeEntry";
 import { TimeEntryRow } from "./TimeEntryRow";
 import moment from "moment";
@@ -9,10 +8,12 @@ import { TimeEntryEdit } from "./TimeEntryEdit";
 import { Earnings } from "./Earnings";
 import { Col, Container, Row } from "react-bootstrap";
 import { DaysState } from "../state/DaysState";
+import { inputElementsToMap } from "../functions";
 
 interface Props {
   date: Date;
   day: DaysState;
+  appState: AppState; // for subscribe/unsubscribe
 }
 
 interface IDayTableState {
@@ -30,6 +31,39 @@ export class DayTable extends React.Component<Props, IDayTableState> {
     entries: [],
     editable: [],
   };
+
+  sub: number = -1;
+
+  componentDidMount(): void {
+    this.fetch();
+    document.addEventListener("keydown", (e) => this.keydownHandler(e));
+    this.subscribe();
+  }
+
+  subscribe() {
+    this.sub = this.props.day.subscribe(
+      () => this.props.appState.notify(),
+      this.props.date.toString()
+    );
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener("keydown", (e) => this.keydownHandler(e));
+    this.unsubscribe();
+  }
+
+  unsubscribe() {
+    this.sub &&
+      this.props.appState.unsubscribe(this.sub, this.props.date.toString());
+  }
+
+  componentDidUpdate(prevProps: any) {
+    if (prevProps.date !== this.props.date) {
+      this.unsubscribe();
+      this.fetch();
+      this.subscribe();
+    }
+  }
 
   get sumHours() {
     // const dayState = this.context.getDay(this.props.date);
@@ -55,11 +89,6 @@ export class DayTable extends React.Component<Props, IDayTableState> {
     return <Earnings hours={hours} />;
   }
 
-  componentDidMount(): void {
-    this.fetch();
-    document.addEventListener("keydown", (e) => this.keydownHandler(e));
-  }
-
   fetch() {
     // const dayState = this.context.getDay(this.props.date);
     const dayState = this.props.day;
@@ -77,22 +106,12 @@ export class DayTable extends React.Component<Props, IDayTableState> {
     );
   }
 
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.date !== this.props.date) {
-      this.fetch();
-    }
-  }
-
   keydownHandler(e: KeyboardEvent) {
     // console.log(e.key, e.ctrlKey, e.metaKey);
     if (e.key === "Insert") {
       // @ts-ignore
       this.addRow((e as unknown) as Event);
     }
-  }
-
-  componentWillUnmount(): void {
-    document.removeEventListener("keydown", (e) => this.keydownHandler(e));
   }
 
   render() {
@@ -108,7 +127,7 @@ export class DayTable extends React.Component<Props, IDayTableState> {
           }}
         >
           <Col>Start Time</Col>
-          <Col>End Time</Col>
+          <Col className="text-right">End Time</Col>
           <Col className="text-right">Duration</Col>
           <Col className="text-right">Earnings</Col>
           <Col>Comment</Col>
@@ -119,7 +138,8 @@ export class DayTable extends React.Component<Props, IDayTableState> {
               date={this.props.date}
               timeEntry={te}
               key={index}
-              onChange={(e) => this.onChange(e, index)}
+              day={this.props.day}
+              onChange={(form) => this.onChange(form, index)}
               makeEditable={(yesNo) => this.makeEditable(index, yesNo)}
               remove={() => {}}
             />
@@ -128,7 +148,8 @@ export class DayTable extends React.Component<Props, IDayTableState> {
               date={this.props.date}
               timeEntry={te}
               key={index}
-              onChange={(e) => this.onChange(e, index)}
+              day={this.props.day}
+              onChange={(form) => this.onChange(form, index)}
               makeEditable={(yesNo) => this.makeEditable(index, yesNo)}
               remove={this.remove.bind(this, index, te)}
             />
@@ -170,7 +191,7 @@ export class DayTable extends React.Component<Props, IDayTableState> {
           {/*  </a>*/}
           {/*) : null}*/}
           {/*</Col>*/}
-          <Col className="text-right">{this.sumTime}</Col>
+          <Col className="text-right">&Sigma; {this.sumTime}</Col>
           <Col className="text-right">{this.sumHours} h</Col>
           <Col className="text-right">{this.sumMoney}</Col>
           <Col />
@@ -183,30 +204,16 @@ export class DayTable extends React.Component<Props, IDayTableState> {
     this.addRow(e);
   }
 
-  onChange(e: React.ChangeEvent, index: number) {
-    e.preventDefault();
-    // console.log(e.target);
-    const input = e.target as HTMLInputElement;
-    if (input === null) {
+  onChange(form: HTMLFormElement, index: number) {
+    console.log("onChange", index, form);
+    if (form === null) {
       return;
     }
     // @ts-ignore
-    const eElements = input
-      .closest(".timeEntryRow")
-      .querySelectorAll("input, textarea");
-    const aElements = Array.from(eElements) as HTMLInputElement[];
-    const valueSet = aElements.map(
-      (el: HTMLInputElement | HTMLTextAreaElement) => {
-        // console.log(el);
-        if (el.name) {
-          return { [el.name]: el.value };
-        }
-        return {};
-      }
-    );
-    const values = valueSet.reduce((acc, pair) => {
-      return Object.assign(acc, pair);
-    }, {});
+    const eElements = form.querySelectorAll(
+      "input, textarea"
+    ) as NodeListOf<HTMLInputElement>;
+    const values = inputElementsToMap(eElements);
     // console.log(index, values);
     const entries: TimeEntry[] = this.state.entries;
     entries[index] = new TimeEntry(values);
