@@ -1,16 +1,18 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 import './DayTimeline.scss';
-import {GlobalContext} from "../state/GlobalContext";
-import {AppState} from "../state/AppState";
 
-export class DayPicker extends React.Component<{
-	date: Date;
-}, {}> {
-
-	static contextType = GlobalContext;
+export class DayPicker extends React.Component<
+	{
+		date: Date;
+		setDate: (date: Date) => void;
+	},
+	{}
+> {
+	// static contextType = GlobalContext;
 	// @ts-ignore
-	context: AppState;
+	// context: AppState;
+	context: undefined;
 
 	myInput: any;
 
@@ -31,11 +33,17 @@ export class DayPicker extends React.Component<{
 		const ctrl = (e.ctrlKey || e.metaKey) && e.shiftKey;
 		if (ctrl && e.key === 'ArrowLeft') {
 			// @ts-ignore
-			this.dayClick(e as unknown as Event, moment(this.props.date).subtract('1', 'day'));
+			this.dayClick(
+				(e as unknown) as React.MouseEvent,
+				moment(this.props.date).subtract('1', 'day'),
+			);
 		}
 		if (ctrl && e.key === 'ArrowRight') {
 			// @ts-ignore
-			this.dayClick(e as unknown as Event, moment(this.props.date).add('1', 'day'));
+			this.dayClick(
+				(e as unknown) as React.MouseEvent,
+				moment(this.props.date).add('1', 'day'),
+			);
 		}
 	}
 
@@ -46,7 +54,7 @@ export class DayPicker extends React.Component<{
 			window.addEventListener('resize', this.handleResize.bind(this));
 		}
 
-		this.forceUpdate();	// width calculated - re-render with dates
+		this.forceUpdate(); // width calculated - re-render with dates
 	}
 
 	componentWillUnmount(): void {
@@ -67,27 +75,46 @@ export class DayPicker extends React.Component<{
 		}
 
 		if (!this.myInput.current) {
-			return <div className="d-flex justify-content-center mb-3" ref={this.myInput}/>;
+			return (
+				<div
+					className="d-flex justify-content-center mb-3"
+					ref={this.myInput}
+				/>
+			);
 		}
 
 		return (
-			<div className="d-flex justify-content-center mb-3" ref={this.myInput}>
-				{days.map(day => {
-					const isWeekend = [6, 7].includes(day.isoWeekday()) ? 'weekend' : '';
-					const isToday = day.isSame(this.props.date, 'day') ? 'today' : '';
-					let dayBox = <div
-						className={"dayBox border text-center align-baseline " + [isWeekend, isToday].join(' ')}
-						key={day.toISOString()}
-					>
-						{day.format('DD')}
-					</div>;
+			<div
+				className="d-flex justify-content-center mb-3"
+				ref={this.myInput}
+			>
+				{days.map((day) => {
+					const isWeekend = [6, 7].includes(day.isoWeekday())
+						? 'weekend'
+						: '';
+					const isToday = day.isSame(this.props.date, 'day')
+						? 'today'
+						: '';
+					let dayBox = (
+						<div
+							className={
+								'dayBox border text-center align-baseline ' +
+								[isWeekend, isToday].join(' ')
+							}
+							key={day.toISOString()}
+						>
+							{day.format('DD')}
+						</div>
+					);
 					if (day.isSame(this.props.date, 'day')) {
 						return dayBox;
 					}
 					return (
-						<a href={'/day/' + day.format('YYYY-MM-DD')} onClick={(e) => this.dayClick(e, day)}
-						   style={{textDecoration: 'none'}}
-						   key={day.toISOString()}
+						<a
+							href={'/day/' + day.format('YYYY-MM-DD')}
+							onClick={(e) => this.dayClick(e, day)}
+							style={{ textDecoration: 'none' }}
+							key={day.toISOString()}
 						>
 							{dayBox}
 						</a>
@@ -99,7 +126,6 @@ export class DayPicker extends React.Component<{
 
 	dayClick(e: React.MouseEvent, date: moment.Moment) {
 		e.preventDefault();
-		this.context.setDate(date.toDate());
+		this.props.setDate(date.toDate());
 	}
-
 }
