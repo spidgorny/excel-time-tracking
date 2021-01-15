@@ -7,7 +7,6 @@ export default function KeyNav(props: {
 	const escFunction = useCallback(
 		(event: KeyboardEvent) => {
 			if (event.key === 'ArrowLeft' && event.ctrlKey) {
-				console.log('Ctrl-Left');
 				props.decDate();
 			} else if (event.key === 'ArrowRight' && event.ctrlKey) {
 				props.incDate();

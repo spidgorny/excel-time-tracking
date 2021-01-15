@@ -9,50 +9,73 @@ import { MonthTotal } from './components/MonthTotal';
 import { Report } from './page/Report';
 import React from 'react';
 import { SetDate } from './state/DateState';
+import { DayProvider } from './state/DayProvider';
+import { DaysState } from './state/DaysState';
+import Delayed from './components/delayed';
+import moment from 'moment';
+import { SlowComponentSameProps } from './components/slow-component-same-props';
+import { ExtractWeekData } from './stats/extract-week-data';
 
-export default function RouterSwitch(props: { date: Date; setDate: SetDate }) {
+interface Props {
+	date: Date;
+	setDate: SetDate;
+	day: DaysState;
+	dayProvider: DayProvider;
+}
+
+export default function RouterSwitch(props: Props) {
 	const date = props.date;
 	const setDate = props.setDate;
-	return <></>;
-	/*
+	return (
 		<Switch>
 			<Route exact path="/">
 				<DayPicker date={date} setDate={setDate} />
 				<DayTimeline date={date} setDate={setDate} />
-				<DayChart
-					workEntries={
-						this.state.appState.getCurrentEntries().entries
-					}
+				<DayChart workEntries={props.day.entries} />
+				<DayTable
+					date={date}
+					day={props.day}
+					appState={props.dayProvider}
 				/>
-				<GlobalContext.Provider value={appState}>
-					<DayTable
-						date={date}
-						day={this.state.appState.getDay(date)}
-						appState={this.state.appState}
-					/>
-					<div
-						className="d-flex justify-content-between"
-						style={{
-							gap: 12,
-						}}
-					>
-						<WeekTotal date={date} appState={this.state.appState} />
-						<MonthTotal
-							date={date}
-							appState={this.state.appState}
-						/>
-					</div>
-				</GlobalContext.Provider>
+				<div
+					className="d-flex justify-content-between"
+					style={{
+						gap: 12,
+					}}
+				>
+					{/*<SlowComponentSameProps*/}
+					{/*	prop={moment().hour() + ':' + moment().minute()}*/}
+					{/*/>*/}
+					<Delayed>
+						<ExtractWeekData
+							monday={moment(date).startOf('week')}
+							dayProvider={props.dayProvider}
+						>
+							{(dateRange) => (
+								<WeekTotal date={date} dateRange={dateRange} />
+							)}
+						</ExtractWeekData>
+						<ExtractWeekData
+							monday={moment(date).startOf('month')}
+							dayProvider={props.dayProvider}
+						>
+							{(dateRange) => (
+								<MonthTotal date={date} dateRange={dateRange} />
+							)}
+						</ExtractWeekData>
+					</Delayed>
+				</div>
 			</Route>
 			<Route path="/report">
-				<GlobalContext.Provider value={appState}>
+				<GlobalContext.Provider value={props.dayProvider}>
 					<Report
 						date={date}
-						getDay={appState.getDay.bind(appState)}
+						getDay={props.dayProvider.getDay.bind(
+							props.dayProvider,
+						)}
 					/>
 				</GlobalContext.Provider>
 			</Route>
 		</Switch>
 	);
-*/
 }

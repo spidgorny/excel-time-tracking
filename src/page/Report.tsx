@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppState } from '../state/AppState';
+import { DayProvider } from '../state/DayProvider';
 import { GlobalContext } from '../state/GlobalContext';
 import moment from 'moment';
 import Table from 'react-bootstrap/Table';

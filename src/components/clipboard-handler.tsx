@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { AppState } from '../state/AppState';
+import { DayProvider } from '../state/DayProvider';
 import { TimeEntry } from '../model/TimeEntry';
 import { DaysState } from '../state/DaysState';
 
-export default function KeyHandler(props: { day: DaysState }) {
+export default function ClipboardHandler(props: { day: DaysState }) {
 	const [clipboard, setClipboard] = useState([] as TimeEntry[]);
 
 	const escFunction = useCallback(

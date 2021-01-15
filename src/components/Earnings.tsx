@@ -1,34 +1,32 @@
-import React from "react";
-import {AppState} from "../state/AppState";
-import {GlobalContext} from "../state/GlobalContext";
+import React from 'react';
+import { DayProvider } from '../state/DayProvider';
+import { GlobalContext } from '../state/GlobalContext';
 
 const currencies = require('country-currency');
 
-export class Earnings extends React.Component<{
+interface Props {
+	rate: number;
 	hours: number;
-}, {}> {
+}
 
+export class Earnings extends React.Component<Props, {}> {
 	static contextType = GlobalContext;
 	// @ts-ignore
-	context: AppState;
+	context: DayProvider;
 
 	render() {
 		const byCountry = currencies.byCountry();
 		let countryCode = navigator.language.substr(3);
 		const currency = byCountry.get(countryCode);
 		// console.log(countryCode, currency);
-		const rate = this.context.rate;
+		const rate = this.props.rate;
 
 		const amount = this.props.hours * rate;
 		const result = new Intl.NumberFormat(undefined, {
 			style: 'currency',
 			currency,
 		}).format(amount);
-		return (
-			<span onClick={this.askPrice.bind(this)}>
-				{result}
-			</span>
-		);
+		return <span onClick={this.askPrice.bind(this)}>{result}</span>;
 	}
 
 	askPrice() {
@@ -42,5 +40,4 @@ export class Earnings extends React.Component<{
 		}
 		this.context.setRate(iPrice);
 	}
-
 }

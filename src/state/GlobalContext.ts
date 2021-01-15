@@ -1,6 +1,6 @@
-import React from "react";
-import { AppState } from "./AppState";
+import React from 'react';
+import { DayProvider } from './DayProvider';
 
 export var GlobalContext = React.createContext(
-  (undefined as unknown) as AppState
+	(undefined as unknown) as DayProvider,
 );

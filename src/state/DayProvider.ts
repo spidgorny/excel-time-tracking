@@ -1,25 +1,33 @@
 import { AppStateBase } from './AppStateBase';
 import { DaysState } from './DaysState';
 import moment from 'moment';
+import React from 'react';
 
-export class AppState extends AppStateBase {
+interface State {
 	rate: number;
+}
+
+export class DayProvider extends React.Component<
+	{
+		date: Date;
+		children: (day: DaysState, dayProvider: DayProvider) => JSX.Element;
+	},
+	State
+> {
+	storage: AppStateBase;
+
 	dayStateCache: {
 		[key: string]: DaysState;
 	} = {};
 
-	constructor() {
-		super();
-		(window as any)['state'] = this;
-		this.rate = this.fetch('rate', 50);
-	}
+	// @ts-ignore
+	state: State = {};
 
-	hash() {
-		return [
-			// this.date.toString(),
-			this.rate,
-			...Object.values(this.dayStateCache).map((e) => e.hash()),
-		].join('.');
+	constructor(props: any) {
+		super(props);
+		(window as any)['state'] = this;
+		this.storage = new AppStateBase();
+		this.state.rate = this.storage.fetch('rate', 50);
 	}
 
 	getDay(date: Date) {
@@ -34,9 +42,9 @@ export class AppState extends AppStateBase {
 	}
 
 	setRate(rate: number) {
-		this.rate = rate;
-		this.update('rate', this.rate);
-		this.notify();
+		this.setState({
+			rate,
+		});
 	}
 
 	// getCurrentEntries() {
@@ -44,4 +52,8 @@ export class AppState extends AppStateBase {
 	// 	console.log("getCurrentEntries", ymd);
 	// return this.getDay(this.date);
 	// }
+
+	render() {
+		return this.props.children(this.getDay(this.props.date), this);
+	}
 }
