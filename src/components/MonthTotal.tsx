@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { WeekTotalComponent } from './WeekTotal';
 // @ts-ignore
-import debounceRender from 'react-debounce-render';
+// import debounceRender from 'react-debounce-render';
 
 export class MonthTotalComponent extends WeekTotalComponent {
 	get title() {

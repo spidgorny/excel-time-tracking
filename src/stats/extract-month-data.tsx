@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 import React from 'react';
 import { DayProvider } from '../state/DayProvider';
 import { DaysState } from '../state/DaysState';
@@ -29,5 +29,6 @@ function ExtractMonthData1({
 
 export const ExtractMonthData = React.memo(
 	ExtractMonthData1,
+	// TODO: compare dataRange children
 	(a, b) => a.theFirst.toISOString() === b.theFirst.toISOString(),
 );

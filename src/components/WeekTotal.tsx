@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Earnings } from './Earnings';
 import { DaysState } from '../state/DaysState';
 // @ts-ignore
-import debounceRender from 'react-debounce-render';
+// import debounceRender from 'react-debounce-render';
 
 const findHashtags = require('find-hashtags');
 

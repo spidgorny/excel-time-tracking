@@ -7,6 +7,7 @@ function mySlowFunction(baseNumber: number) {
 		result += Math.atan(i) * Math.tan(i);
 	}
 	console.timeEnd('mySlowFunction');
+	return result;
 }
 
 function SlowComponentSameProps1({ prop }: { prop: string }) {

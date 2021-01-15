@@ -13,7 +13,6 @@ import { DayProvider } from './state/DayProvider';
 import { DaysState } from './state/DaysState';
 import Delayed from './components/delayed';
 import moment from 'moment';
-import { SlowComponentSameProps } from './components/slow-component-same-props';
 import { ExtractWeekData } from './stats/extract-week-data';
 
 interface Props {

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { DayProvider } from '../state/DayProvider';
 import { TimeEntry } from '../model/TimeEntry';
 import { DaysState } from '../state/DaysState';
 
@@ -35,7 +34,7 @@ export default function ClipboardHandler(props: { day: DaysState }) {
 				// );
 			}
 		},
-		[props.day, props.day.entries, clipboard],
+		[props.day, clipboard],
 	);
 
 	useEffect(() => {
@@ -44,7 +43,7 @@ export default function ClipboardHandler(props: { day: DaysState }) {
 		return () => {
 			document.removeEventListener('keydown', escFunction, false);
 		};
-	}, [props.day, props.day.entries, clipboard, escFunction]);
+	}, [props.day, clipboard, escFunction]);
 
 	return <></>;
 }
