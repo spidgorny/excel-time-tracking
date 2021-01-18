@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { Earnings } from './Earnings';
-import { DaysState } from '../state/DaysState';
+import { Earnings } from '../components/Earnings';
+import { Entries } from '../state/entries';
 // @ts-ignore
 // import debounceRender from 'react-debounce-render';
 
@@ -9,7 +9,7 @@ const findHashtags = require('find-hashtags');
 
 interface Props {
 	date: Date;
-	dateRange: DaysState[];
+	dateRange: Entries[];
 }
 
 export class WeekTotalComponent extends React.PureComponent<Props, {}> {
@@ -49,7 +49,7 @@ export class WeekTotalComponent extends React.PureComponent<Props, {}> {
 	get hashtags() {
 		const tagTimes: { [key: string]: number } = {};
 		for (const dayState of this.props.dateRange) {
-			for (const te of dayState.entries) {
+			for (const te of dayState.state.entries) {
 				const tags = findHashtags(te.comment);
 				for (const tag of tags) {
 					if (!(tag in tagTimes)) {

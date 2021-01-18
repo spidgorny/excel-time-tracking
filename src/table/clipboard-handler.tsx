@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { TimeEntry } from '../model/TimeEntry';
-import { DaysState } from '../state/DaysState';
+import { Entries } from '../state/entries';
 
-export default function ClipboardHandler(props: { day: DaysState }) {
+export default function ClipboardHandler(props: { day: Entries }) {
 	const [clipboard, setClipboard] = useState([] as TimeEntry[]);
 
 	const escFunction = useCallback(
 		(event: KeyboardEvent) => {
 			if (event.key.toLowerCase() === 'c' && event.ctrlKey) {
 				console.log('Ctrl-C');
-				let timeEntries = props.day.entries;
+				let timeEntries = props.day.state.entries;
 				setClipboard(timeEntries.slice());
 				console.log(timeEntries, clipboard);
 			} else if (event.key.toLowerCase() === 'v' && event.ctrlKey) {
@@ -18,7 +18,7 @@ export default function ClipboardHandler(props: { day: DaysState }) {
 					console.log('clipboard is empty');
 					return;
 				}
-				if (props.day.entries.length) {
+				if (props.day.state.entries.length) {
 					// throw new Error("Overwriting is dangerous");
 					console.warn('Overwriting is dangerous');
 					return;

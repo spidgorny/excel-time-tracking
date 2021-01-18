@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import moment from 'moment';
-import { AppStateBase } from './AppStateBase';
+import { Storage } from './Storage';
 
 interface State {
 	date: Date;
@@ -8,17 +8,16 @@ interface State {
 
 export type SetDate = (date: Date) => void;
 
-export class DateState extends React.Component<
-	PropsWithChildren<{
-		children: (
-			date: Date,
-			setDate: SetDate,
-			dateState: DateState,
-		) => JSX.Element;
-	}>,
-	State
-> {
-	storage: AppStateBase;
+interface Props {
+	children: (
+		date: Date,
+		setDate: SetDate,
+		dateState: DateState,
+	) => JSX.Element;
+}
+
+export class DateState extends React.Component<PropsWithChildren<Props>, State> {
+	storage: Storage;
 
 	state: State = {
 		date: new Date(),
@@ -26,12 +25,13 @@ export class DateState extends React.Component<
 
 	constructor(props: any) {
 		super(props);
-		this.storage = new AppStateBase();
+		this.storage = new Storage();
 		this.state.date = this.storage.fetch('date', this.state.date);
 	}
 
 	setDate(date: Date) {
-		// console.log("setDate", date);
+		console.log('setDate', moment(date).toISOString());
+		this.storage.update('date', date);
 		this.setState({
 			date,
 		});
@@ -46,10 +46,15 @@ export class DateState extends React.Component<
 	}
 
 	render() {
-		return this.props.children(
-			this.state.date,
-			this.setDate.bind(this),
-			this,
+		console.log('DateState render', moment(this.state.date).toISOString());
+		return (
+			<React.Fragment key={this.state.date.toString()}>
+				{this.props.children(
+					this.state.date,
+					this.setDate.bind(this),
+					this,
+				)}
+			</React.Fragment>
 		);
 	}
 }

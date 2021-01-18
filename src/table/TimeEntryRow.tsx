@@ -1,13 +1,13 @@
 import React from 'react';
 import { TimeEntry } from '../model/TimeEntry';
 import moment from 'moment';
-import { Earnings } from './Earnings';
+import { Earnings } from '../components/Earnings';
 import { Col, Row } from 'react-bootstrap';
-import { DaysState } from '../state/DaysState';
+import { Entries } from '../state/entries';
 
 export interface ITimeEntryRowProps {
 	date: Date;
-	day: DaysState;
+	day: Entries;
 	timeEntry: TimeEntry;
 	onChange: (e: HTMLFormElement) => void;
 	makeEditable: (yesOrNo: boolean) => void;

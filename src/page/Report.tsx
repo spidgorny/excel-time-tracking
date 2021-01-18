@@ -3,11 +3,11 @@ import { DayProvider } from '../state/DayProvider';
 import { GlobalContext } from '../state/GlobalContext';
 import moment from 'moment';
 import Table from 'react-bootstrap/Table';
-import { DaysState } from '../state/DaysState';
+import { Entries } from '../state/entries';
 
 interface IReportProps {
 	date: Date;
-	getDay: (date: Date) => DaysState;
+	getDay: (date: Date) => Entries;
 }
 
 interface IReportState {}
@@ -43,7 +43,7 @@ export class Report extends React.Component<IReportProps, IReportState> {
 							</h3>
 							<Table as="table">
 								<tbody>
-									{dayRepo.entries.map((entry) => {
+									{dayRepo.state.entries.map((entry) => {
 										return (
 											<tr>
 												<td>{entry.start}</td>

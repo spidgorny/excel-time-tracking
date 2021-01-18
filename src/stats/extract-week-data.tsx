@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 import React from 'react';
 import { DayProvider } from '../state/DayProvider';
-import { DaysState } from '../state/DaysState';
+import { Entries } from '../state/entries';
 
 function ExtractWeekData1({
 	monday,
@@ -10,7 +10,7 @@ function ExtractWeekData1({
 }: {
 	monday: Moment;
 	dayProvider: DayProvider;
-	children: (dateRange: DaysState[]) => JSX.Element;
+	children: (dateRange: Entries[]) => JSX.Element;
 }) {
 	function dateRange() {
 		const dateRange = [];

@@ -5,14 +5,14 @@ import { TimeEntry } from '../model/TimeEntry';
 import { TimeEntryRow } from './TimeEntryRow';
 import moment from 'moment';
 import { TimeEntryEdit } from './TimeEntryEdit';
-import { Earnings } from './Earnings';
+import { Earnings } from '../components/Earnings';
 import { Col, Container, Row } from 'react-bootstrap';
-import { DaysState } from '../state/DaysState';
+import { Entries } from '../state/entries';
 import { inputElementsToMap } from '../functions';
 
 interface Props {
 	date: Date;
-	day: DaysState;
+	day: Entries;
 	appState: DayProvider; // for subscribe/unsubscribe
 }
 
@@ -31,8 +31,6 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 		entries: [],
 		editable: [],
 	};
-
-	sub: number = -1;
 
 	get sumHours() {
 		// const dayState = this.context.getDay(this.props.date);
@@ -79,7 +77,7 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 	fetch() {
 		// const dayState = this.context.getDay(this.props.date);
 		const dayState = this.props.day;
-		const entries = dayState.entries;
+		const entries = dayState.state.entries;
 		// console.log('componentDidMount', entries);
 		this.setState(
 			{
@@ -98,6 +96,12 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 		if (e.key === 'Insert') {
 			// @ts-ignore
 			this.addRow((e as unknown) as Event);
+		}
+		if (e.key === 'Escape') {
+			// console.log(e.key);
+			this.setState({
+				editable: [],
+			});
 		}
 	}
 
@@ -146,22 +150,6 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 						/>
 					),
 				)}
-				{!this.state.entries.length ? (
-					<Row>
-						<Col className="col-4">
-							<a
-								href="/start"
-								className="btn btn-primary"
-								onClick={this.startWorking.bind(this)}
-							>
-								<FaPlay />
-							</a>
-						</Col>
-						<Col />
-						<Col />
-						<Col />
-					</Row>
-				) : null}
 				<Row
 					className="tfoot-light"
 					style={{
@@ -189,10 +177,6 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 				</Row>
 			</Container>
 		);
-	}
-
-	startWorking(e: React.MouseEvent) {
-		this.addRow(e);
 	}
 
 	onChange(form: HTMLFormElement, index: number) {
@@ -291,6 +275,7 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 	remove(index: number, te: TimeEntry) {
 		// this.context.getCurrentEntries().remove(index);
 		// const dayState = this.context.getDay(this.props.date);
+		console.log('removing', index);
 		const dayState = this.props.day;
 		dayState.remove(index);
 	}
