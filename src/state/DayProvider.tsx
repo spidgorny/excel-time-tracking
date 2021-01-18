@@ -15,16 +15,11 @@ interface State {
 export class DayProvider extends React.Component<Props, State> {
 	storage: Storage;
 
-	dayStateCache: {
-		[key: string]: Entries;
-	} = {};
-
 	// @ts-ignore
 	state: State = {};
 
 	constructor(props: any) {
 		super(props);
-		(window as any)['state'] = this;
 		this.storage = new Storage();
 		this.state.rate = this.storage.fetch('rate', 50);
 	}

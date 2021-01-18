@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPlay, FaPlus } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import { DayProvider } from '../state/DayProvider';
 import { TimeEntry } from '../model/TimeEntry';
 import { TimeEntryRow } from './TimeEntryRow';

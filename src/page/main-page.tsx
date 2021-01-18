@@ -9,20 +9,20 @@ import moment from 'moment';
 import { WeekTotal } from '../stats/WeekTotal';
 import { MonthTotal } from '../stats/MonthTotal';
 import React from 'react';
+import ClipboardHandler from '../table/clipboard-handler';
 
 export default function MainPage(props: {
 	date: Date;
 	setDate: (date: Date) => void;
-	day: Entries;
+	dayData: Entries;
 	appState: DayProvider;
 }) {
 	return (
 		<>
-			<DayTimeline date={props.date} setDate={props.setDate} />
-			<DayChart workEntries={props.day.state.entries} />
+			<DayChart workEntries={props.dayData.state.entries} />
 			<DayTable
 				date={props.date}
-				day={props.day}
+				day={props.dayData}
 				appState={props.appState}
 			/>
 			<div
@@ -59,6 +59,7 @@ export default function MainPage(props: {
 					</ExtractWeekData>
 				</Delayed>
 			</div>
+			<ClipboardHandler day={props.dayData} />
 		</>
 	);
 }

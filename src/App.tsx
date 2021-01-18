@@ -6,6 +6,7 @@ import { DayProvider } from './state/DayProvider';
 import { DateState, SetDate } from './state/DateState';
 import { Entries } from './state/entries';
 import Layout from './page/layout';
+import HandleSave from './table/handle-save';
 
 export const history = createBrowserHistory();
 export var DateContext = React.createContext(new Date());
@@ -32,6 +33,7 @@ export class App extends React.Component<any, any> {
 									dayProvider={dayProvider}
 									dateState={dateState}
 								/>
+								<HandleSave dayProvider={dayProvider} />
 							</Router>
 						)}
 					</DayProvider>

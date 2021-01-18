@@ -23,7 +23,7 @@ export default function RouterSwitch(props: Props) {
 				<MainPage
 					date={date}
 					setDate={setDate}
-					day={props.dayData}
+					dayData={props.dayData}
 					appState={props.dayProvider}
 				/>
 			</Route>

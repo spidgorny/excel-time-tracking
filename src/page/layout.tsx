@@ -4,10 +4,10 @@ import { DayProvider } from '../state/DayProvider';
 import { Header } from '../components/Header';
 import moment from 'moment';
 import RouterSwitch from '../router-switch';
-import ClipboardHandler from '../table/clipboard-handler';
 import KeyNav from '../components/key-nav';
 import { Col, Row } from 'react-bootstrap';
 import React from 'react';
+import { DayTimeline } from '../components/DayTimeline';
 
 export default function Layout(props: {
 	date: Date;
@@ -25,6 +25,7 @@ export default function Layout(props: {
 			/>
 			<main role="main" className="container-fluid">
 				<div className="h-100">
+					<DayTimeline date={props.date} setDate={props.setDate} />
 					<RouterSwitch
 						date={props.date}
 						setDate={props.setDate}
@@ -33,7 +34,6 @@ export default function Layout(props: {
 					/>
 				</div>
 			</main>
-			<ClipboardHandler day={props.dayData} />
 			<KeyNav
 				incDate={props.dateState.incDate.bind(props.dateState)}
 				decDate={props.dateState.decDate.bind(props.dateState)}
