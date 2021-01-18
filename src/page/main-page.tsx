@@ -1,6 +1,5 @@
 import { Entries } from '../state/entries';
 import { DayProvider } from '../state/DayProvider';
-import { DayPicker } from '../components/DayPicker';
 import { DayTimeline } from '../components/DayTimeline';
 import { DayChart } from '../components/DayChart';
 import { DayTable } from '../table/DayTable';
@@ -19,7 +18,6 @@ export default function MainPage(props: {
 }) {
 	return (
 		<>
-			<DayPicker date={props.date} setDate={props.setDate} />
 			<DayTimeline date={props.date} setDate={props.setDate} />
 			<DayChart workEntries={props.day.state.entries} />
 			<DayTable

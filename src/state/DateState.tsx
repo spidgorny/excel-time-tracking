@@ -16,7 +16,10 @@ interface Props {
 	) => JSX.Element;
 }
 
-export class DateState extends React.Component<PropsWithChildren<Props>, State> {
+export class DateState extends React.Component<
+	PropsWithChildren<Props>,
+	State
+> {
 	storage: Storage;
 
 	state: State = {

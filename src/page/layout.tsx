@@ -3,7 +3,6 @@ import { Entries } from '../state/entries';
 import { DayProvider } from '../state/DayProvider';
 import { Header } from '../components/Header';
 import moment from 'moment';
-import { DayPicker } from '../components/DayPicker';
 import RouterSwitch from '../router-switch';
 import ClipboardHandler from '../table/clipboard-handler';
 import KeyNav from '../components/key-nav';
@@ -26,7 +25,6 @@ export default function Layout(props: {
 			/>
 			<main role="main" className="container-fluid">
 				<div className="h-100">
-					<DayPicker date={props.date} setDate={props.setDate} />
 					<RouterSwitch
 						date={props.date}
 						setDate={props.setDate}
