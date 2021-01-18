@@ -29,9 +29,6 @@ export class Entries extends React.Component<Props, State> {
 		this.state = {
 			entries,
 		};
-		this.setState({
-			entries,
-		});
 	}
 
 	get key() {
@@ -57,17 +54,14 @@ export class Entries extends React.Component<Props, State> {
 	}
 
 	updateOne(timeEntry: TimeEntry) {
-		const index = this.state.entries.findIndex((el) => el === timeEntry);
+		let timeEntries = this.state.entries;
+		const index = timeEntries.findIndex((el) => el === timeEntry);
 		if (index === -1) {
 			console.error('index in updateOne not found');
 			return;
 		}
-		this.state.entries[index] = timeEntry;
-		this.updateEntries(this.state.entries);
-		console.log('updateOne', timeEntry);
-		this.setState({
-			entries: this.state.entries,
-		});
+		timeEntries[index] = timeEntry;
+		this.updateEntries(timeEntries);
 	}
 
 	remove(index: number) {

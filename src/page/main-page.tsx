@@ -1,6 +1,5 @@
 import { Entries } from '../state/entries';
 import { DayProvider } from '../state/DayProvider';
-import { DayTimeline } from '../components/DayTimeline';
 import { DayChart } from '../components/DayChart';
 import { DayTable } from '../table/DayTable';
 import Delayed from '../components/delayed';

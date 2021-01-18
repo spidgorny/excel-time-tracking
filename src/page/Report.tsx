@@ -1,6 +1,4 @@
 import React from 'react';
-import { DayProvider } from '../state/DayProvider';
-import { GlobalContext } from '../state/GlobalContext';
 import moment from 'moment';
 import Table from 'react-bootstrap/Table';
 import { Entries } from '../state/entries';
