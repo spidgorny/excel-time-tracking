@@ -34,7 +34,7 @@ export class SAP extends React.Component<IReportProps, IReportState> {
 
 		return (
 			<>
-				<h3>#{startOfWeek.week()}</h3>
+				<h3>#{startOfWeek.week().toString().padStart(2, '0')}</h3>
 				<Table as="table">
 					{Object.entries(dataMap).map(([date, sumHours]) => (
 						<col
@@ -100,7 +100,10 @@ export class SAP extends React.Component<IReportProps, IReportState> {
 						<tr>
 							{Object.entries(dataMap).map(([date, sumHours]) => (
 								<td className="">
-									&Sigma; {humanTime(sumHours)}
+									&Sigma;{' '}
+									<span title={sumHours.toString()}>
+										{humanTime(sumHours)}
+									</span>
 								</td>
 							))}
 						</tr>
