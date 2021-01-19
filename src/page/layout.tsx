@@ -46,11 +46,23 @@ export default function Layout(props: {
 					</div>
 					<Row>
 						<Col>
-							<kbd>Ins</kbd>: new line, <kbd>Ctrl-Enter</kbd>:
-							save, <kbd>Ctrl-Backspace</kbd>: remove
+							<div>
+								<kbd>Ins</kbd>: new line
+							</div>
+							<div>
+								<kbd>Ctrl-Enter</kbd>:save
+							</div>
+							<div>
+								<kbd>Ctrl-Backspace</kbd>: remove
+							</div>
 						</Col>
 						<Col>
-							<kbd>Ctrl-C</kbd>, <kbd>Ctrl-V</kbd>: clipboard
+							<div>
+								<kbd>Ctrl-C</kbd>, <kbd>Ctrl-V</kbd>: clipboard
+							</div>
+							<div>
+								<kbd>Ctrl-S</kbd>: Download backup (json)
+							</div>
 						</Col>
 					</Row>
 				</div>

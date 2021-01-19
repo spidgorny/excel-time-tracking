@@ -18,6 +18,8 @@ export class DayTimeline extends React.Component<Props, {}> {
 	constructor(props: any) {
 		super(props);
 		this.myInput = React.createRef();
+		this.keydownHandler = this.keydownHandler.bind(this);
+		this.handleResize = this.handleResize.bind(this);
 	}
 
 	get range() {
@@ -47,22 +49,22 @@ export class DayTimeline extends React.Component<Props, {}> {
 	}
 
 	componentDidMount(): void {
-		document.addEventListener('keydown', this.keydownHandler.bind(this));
+		document.addEventListener('keydown', this.keydownHandler);
 		console.log('width', this.myInput.current.offsetWidth, 'rerender');
 		if (this.myInput.current) {
-			window.addEventListener('resize', this.handleResize.bind(this));
+			window.addEventListener('resize', this.handleResize);
 		}
 
 		this.forceUpdate(); // width calculated - re-render with dates
 	}
 
 	componentWillUnmount(): void {
-		document.removeEventListener('keydown', this.keydownHandler.bind(this));
-		window.removeEventListener('resize', this.handleResize.bind(this));
+		document.removeEventListener('keydown', this.keydownHandler);
+		window.removeEventListener('resize', this.handleResize);
 	}
 
 	handleResize() {
-		console.log('resize');
+		// console.log('resize');
 		this.forceUpdate();
 	}
 

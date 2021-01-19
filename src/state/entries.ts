@@ -2,6 +2,7 @@ import { Storage } from './Storage';
 import moment from 'moment';
 import { TimeEntry } from '../model/TimeEntry';
 import React from 'react';
+import { humanTime } from '../functions';
 
 interface Props {
 	date: Date;
@@ -18,12 +19,12 @@ export class Entries extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.storage = new Storage();
-		console.time('DaysState ' + this.key);
+		// console.time('DaysState ' + this.key);
 		const entries = this.storage
 			.fetch(this.key, [])
 			.map((el: any) => new TimeEntry(el))
 			.filter((el: TimeEntry) => el.start);
-		console.timeEnd('DaysState ' + this.key);
+		// console.timeEnd('DaysState ' + this.key);
 		// @ts-ignore
 		// noinspection JSConstantReassignment
 		this.state = {
@@ -34,6 +35,23 @@ export class Entries extends React.Component<Props, State> {
 	get key() {
 		const ymd = moment(this.props.date).format('YYYY-MM-DD');
 		return 'date.' + ymd + '.entries';
+	}
+
+	get sumHoursString() {
+		// const dayState = this.context.getDay(this.props.date);
+		const dayState = this;
+		return dayState.sumTime.asHours().toFixed(2);
+	}
+
+	get sumTimeString() {
+		return humanTime(this.sumTime);
+	}
+
+	get sumHours() {
+		// const dayState = this.context.getDay(this.props.date);
+		const dayState = this;
+		const hours = dayState.sumTime.asHours();
+		return hours;
 	}
 
 	get sumTime(): moment.Duration {

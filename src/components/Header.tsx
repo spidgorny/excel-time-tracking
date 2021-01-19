@@ -104,6 +104,17 @@ class HeaderClass extends React.Component<
 							>
 								Report
 							</Link>
+							<Link
+								className={[
+									'nav-link',
+									this.props.location.pathname === '/sap'
+										? 'active'
+										: '',
+								].join(' ')}
+								to="/sap"
+							>
+								SAP
+							</Link>
 						</div>
 					</Navbar.Collapse>
 				</Navbar>

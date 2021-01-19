@@ -1,7 +1,6 @@
 import { Storage } from './Storage';
 import { Entries } from './entries';
 import React from 'react';
-import moment from 'moment';
 
 interface Props {
 	date: Date;
@@ -42,7 +41,7 @@ export class DayProvider extends React.Component<Props, State> {
 	}
 
 	render() {
-		console.warn('DayProvider', moment(this.props.date).toISOString());
+		// console.warn('DayProvider', moment(this.props.date).toISOString());
 		return (
 			<Entries date={this.props.date}>
 				{(dayData: Entries) => {

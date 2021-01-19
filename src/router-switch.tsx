@@ -1,11 +1,11 @@
 import { Route, Switch } from 'react-router-dom';
-import { GlobalContext } from './state/GlobalContext';
 import { Report } from './page/Report';
 import React from 'react';
 import { SetDate } from './state/DateState';
 import { DayProvider } from './state/DayProvider';
 import { Entries } from './state/entries';
 import MainPage from './page/main-page';
+import { SAP } from './page/sap';
 
 interface Props {
 	date: Date;
@@ -28,14 +28,16 @@ export default function RouterSwitch(props: Props) {
 				/>
 			</Route>
 			<Route path="/report">
-				<GlobalContext.Provider value={props.dayProvider}>
-					<Report
-						date={date}
-						getDay={props.dayProvider.getDay.bind(
-							props.dayProvider,
-						)}
-					/>
-				</GlobalContext.Provider>
+				<Report
+					date={date}
+					getDay={props.dayProvider.getDay.bind(props.dayProvider)}
+				/>
+			</Route>
+			<Route path="/sap">
+				<SAP
+					date={date}
+					getDay={props.dayProvider.getDay.bind(props.dayProvider)}
+				/>
 			</Route>
 		</Switch>
 	);

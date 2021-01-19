@@ -32,40 +32,18 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 		editable: [],
 	};
 
-	get sumHours() {
-		// const dayState = this.context.getDay(this.props.date);
-		const dayState = this.props.day;
-		return dayState.sumTime.asHours().toFixed(2);
-	}
-
-	get sumTime() {
-		// const dayState = this.context.getDay(this.props.date);
-		const dayState = this.props.day;
-		const duration = dayState.sumTime;
-		let hh = duration.get('hours');
-		let mm = duration.get('minutes');
-		return (
-			hh.toString().padStart(2, '0') +
-			':' +
-			mm.toString().padStart(2, '0')
-		);
-	}
-
-	get sumMoney() {
-		// const dayState = this.context.getDay(this.props.date);
-		const dayState = this.props.day;
-		const hours = dayState.sumTime.asHours();
-		// TODO: rate
-		return <Earnings hours={hours} rate={50} />;
+	constructor(props: Props) {
+		super(props);
+		this.keydownHandler = this.keydownHandler.bind(this);
 	}
 
 	componentDidMount(): void {
 		this.fetch();
-		document.addEventListener('keydown', (e) => this.keydownHandler(e));
+		document.addEventListener('keydown', this.keydownHandler);
 	}
 
 	componentWillUnmount(): void {
-		document.removeEventListener('keydown', (e) => this.keydownHandler(e));
+		document.removeEventListener('keydown', this.keydownHandler);
 	}
 
 	componentDidUpdate(prevProps: any) {
@@ -170,9 +148,15 @@ export class DayTable extends React.Component<Props, IDayTableState> {
 					{/*  </a>*/}
 					{/*) : null}*/}
 					{/*</Col>*/}
-					<Col className="text-right">&Sigma; {this.sumTime}</Col>
-					<Col className="text-right">{this.sumHours} h</Col>
-					<Col className="text-right">{this.sumMoney}</Col>
+					<Col className="text-right">
+						&Sigma; {this.props.day.sumTimeString}
+					</Col>
+					<Col className="text-right">
+						{this.props.day.sumHoursString} h
+					</Col>
+					<Col className="text-right">
+						<Earnings hours={this.props.day.sumHours} rate={50} />
+					</Col>
 					<Col />
 				</Row>
 			</Container>
