@@ -1,25 +1,23 @@
 {
   "files": {
-    "main.css": "/excel-time-tracking/live/static/css/main.023076f3.chunk.css",
-    "main.js": "/excel-time-tracking/live/static/js/main.dabc0c5e.chunk.js",
-    "main.js.map": "/excel-time-tracking/live/static/js/main.dabc0c5e.chunk.js.map",
-    "runtime-main.js": "/excel-time-tracking/live/static/js/runtime-main.87a71728.js",
-    "runtime-main.js.map": "/excel-time-tracking/live/static/js/runtime-main.87a71728.js.map",
-    "static/css/2.38e38cca.chunk.css": "/excel-time-tracking/live/static/css/2.38e38cca.chunk.css",
-    "static/js/2.ce64d535.chunk.js": "/excel-time-tracking/live/static/js/2.ce64d535.chunk.js",
-    "static/js/2.ce64d535.chunk.js.map": "/excel-time-tracking/live/static/js/2.ce64d535.chunk.js.map",
-    "index.html": "/excel-time-tracking/live/index.html",
-    "precache-manifest.c5d8b2e861baa6bd6ec991fbece96635.js": "/excel-time-tracking/live/precache-manifest.c5d8b2e861baa6bd6ec991fbece96635.js",
-    "service-worker.js": "/excel-time-tracking/live/service-worker.js",
-    "static/css/2.38e38cca.chunk.css.map": "/excel-time-tracking/live/static/css/2.38e38cca.chunk.css.map",
-    "static/css/main.023076f3.chunk.css.map": "/excel-time-tracking/live/static/css/main.023076f3.chunk.css.map",
-    "static/js/2.ce64d535.chunk.js.LICENSE.txt": "/excel-time-tracking/live/static/js/2.ce64d535.chunk.js.LICENSE.txt"
+    "main.css": "/static/css/main.da880852.chunk.css",
+    "main.js": "/static/js/main.7c672576.chunk.js",
+    "main.js.map": "/static/js/main.7c672576.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.0895a721.js",
+    "runtime-main.js.map": "/static/js/runtime-main.0895a721.js.map",
+    "static/css/2.0018cff2.chunk.css": "/static/css/2.0018cff2.chunk.css",
+    "static/js/2.8ac95212.chunk.js": "/static/js/2.8ac95212.chunk.js",
+    "static/js/2.8ac95212.chunk.js.map": "/static/js/2.8ac95212.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.0018cff2.chunk.css.map": "/static/css/2.0018cff2.chunk.css.map",
+    "static/css/main.da880852.chunk.css.map": "/static/css/main.da880852.chunk.css.map",
+    "static/js/2.8ac95212.chunk.js.LICENSE.txt": "/static/js/2.8ac95212.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.87a71728.js",
-    "static/css/2.38e38cca.chunk.css",
-    "static/js/2.ce64d535.chunk.js",
-    "static/css/main.023076f3.chunk.css",
-    "static/js/main.dabc0c5e.chunk.js"
+    "static/js/runtime-main.0895a721.js",
+    "static/css/2.0018cff2.chunk.css",
+    "static/js/2.8ac95212.chunk.js",
+    "static/css/main.da880852.chunk.css",
+    "static/js/main.7c672576.chunk.js"
   ]
 }
