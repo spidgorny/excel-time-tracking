@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import Table from 'react-bootstrap/Table';
 import { Entries } from '../state/entries';
-import { Earnings } from '../components/Earnings';
 import { humanTime } from '../functions';
 
 interface IReportProps {
