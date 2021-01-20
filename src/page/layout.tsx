@@ -38,7 +38,7 @@ export default function Layout(props: {
 				incDate={props.dateState.incDate.bind(props.dateState)}
 				decDate={props.dateState.decDate.bind(props.dateState)}
 			/>
-			<footer className="container-fluid mt-3 pt-2 border-top">
+			<footer className="container-fluid mt-3 py-2 border-top">
 				<div className="inner">
 					<div>
 						&copy; 2021{' '}
@@ -47,21 +47,29 @@ export default function Layout(props: {
 					<Row>
 						<Col>
 							<div>
-								<kbd>Ins</kbd>: new line
+								<kbd>Ctrl-Left</kbd> - prev day
 							</div>
 							<div>
-								<kbd>Ctrl-Enter</kbd>:save
-							</div>
-							<div>
-								<kbd>Ctrl-Backspace</kbd>: remove
+								<kbd>Ctrl-Right</kbd> - next day
 							</div>
 						</Col>
 						<Col>
 							<div>
-								<kbd>Ctrl-C</kbd>, <kbd>Ctrl-V</kbd>: clipboard
+								<kbd>Ins</kbd> - new line
 							</div>
 							<div>
-								<kbd>Ctrl-S</kbd>: Download backup (json)
+								<kbd>Ctrl-Enter</kbd> - save edit
+							</div>
+							<div>
+								<kbd>Ctrl-Backspace</kbd> - remove line
+							</div>
+						</Col>
+						<Col>
+							<div>
+								<kbd>Ctrl-C</kbd> <kbd>Ctrl-V</kbd> - clipboard
+							</div>
+							<div>
+								<kbd>Ctrl-S</kbd> - Download backup (json)
 							</div>
 						</Col>
 					</Row>

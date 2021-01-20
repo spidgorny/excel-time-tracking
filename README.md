@@ -24,6 +24,6 @@ Time tracking as easy as in Excel.
 ### Todo
 
 - [ ] Edit the rate/hour. Currently, hardcoded to $50.
-- [ ] Connect to firebase and implement login.
-- [ ] Export data to JSON for backup and transfer to other apps.
+- [ ] Connect to firebase and implement login. (necessary?)
+- [x] Export data to JSON for backup and transfer to other apps.
 - [ ] Allow selecting the currency. Currently, auto-detected based on the language of the browser.
