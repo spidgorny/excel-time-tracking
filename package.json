@@ -7,7 +7,7 @@
     "bootstrap": "^4.5.3",
     "country-currency": "^1.0.1",
     "find-hashtags": "^1.0.1",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dates": "^21.8.0",
